@@ -1,0 +1,36 @@
+<app-navbar></app-navbar>
+<main class="d-flex">
+  <app-sidebar></app-sidebar>
+  <section class="d-flex flex-column flex-grow-1 mt-3 ms-3">
+    <div class="d-flex justify-content-between">
+      <h2>Productos</h2>
+      <a
+        routerLink="/productos/agregar"
+        class="btn btn-success"
+        tabindex="-1"
+        role="button"
+        aria-disabled="true"
+        >Agregar Nuevo Producto</a
+      >
+    </div>
+    <div class="m-3 border">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Codigo</th>
+            <th scope="col">Proveedor</th>
+            <th scope="col">Categoria</th>
+            <th scope="col">Nombre producto</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Editar / Borrar</th>
+          </tr>
+        </thead>
+        <tbody id="proveedoresTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<app-footer></app-footer>
+<router-outlet></router-outlet>
