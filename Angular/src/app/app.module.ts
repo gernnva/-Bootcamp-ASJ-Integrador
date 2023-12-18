@@ -13,6 +13,9 @@ import { FooterComponent } from './components/Templates/footer/footer.component'
 import { MainComponent } from './components/Templates/main/main.component';
 import { ProductosAgregarComponent } from './components/Entidades/productos-agregar/productos-agregar.component';
 import { InicioComponent } from './components/Templates/inicio/inicio.component';
+import { FormsModule } from '@angular/forms';
+import { ProveedoresAgregarComponent } from './components/Entidades/proveedores-agregar/proveedores-agregar.component';
+
 
 @NgModule({
   declarations: [
@@ -26,12 +29,14 @@ import { InicioComponent } from './components/Templates/inicio/inicio.component'
     MainComponent,
     ProductosAgregarComponent,
     InicioComponent,
+    ProveedoresAgregarComponent,
 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

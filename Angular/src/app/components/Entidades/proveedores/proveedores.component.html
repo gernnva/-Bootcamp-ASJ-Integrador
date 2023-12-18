@@ -1,1 +1,27 @@
-<p>proveedores works!</p>
+<app-navbar></app-navbar>
+<section class="d-flex flex-column">
+    <div class="d-flex justify-content-between me-3" >
+        <h2>Proveedores</h2>
+        <a routerLink="/proveedores/agregar" class="btn btn-success" tabindex="-1" role="button" aria-disabled="true">Agregar Nuevo Proveedor</a>
+    </div>
+    <div class="m-3 border">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Codigo</th>
+                <th scope="col">Razon Social</th>
+                <th scope="col">Rubro</th>
+                <th scope="col">Sitio Web</th>
+                <th scope="col">Contacto</th>
+                <th scope="col">Telefono</th>
+                <th scope="col">Editar / Borrar</th>
+              </tr>
+            </thead>
+            <tbody id="proveedoresTableBody">
+             
+            </tbody>
+          </table>
+    </div>   
+  </section>
+<app-footer></app-footer>
+<router-outlet></router-outlet>

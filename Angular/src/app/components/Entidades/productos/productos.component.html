@@ -26,7 +26,17 @@
             <th scope="col">Editar / Borrar</th>
           </tr>
         </thead>
-        <tbody id="proveedoresTableBody"></tbody>
+        <tbody>
+          <tr *ngFor="let p of productos">
+            <td> {{ p.id }}</td>
+            <td> {{ p.proveedor }}</td>
+            <td> {{ p.categoria }}</td>
+            <td> {{ p.nombreProducto }}</td>
+            <td> {{ p.descripcion }}</td>
+            <td> {{ p.precio }}</td>
+            <td></td> <!-- Ingresar los botones de borrar y editar-->
+          </tr>
+        </tbody>
       </table>
     </div>
   </section>
