@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { ProductosService } from 'src/app/service/productos.service';
+import { Producto } from 'src/app/models/Producto';
+
 
 @Component({
   selector: 'app-productos-agregar',
@@ -7,26 +9,21 @@ import { ProductosService } from 'src/app/service/productos.service';
   styleUrls: ['./productos-agregar.component.css']
 })
 export class ProductosAgregarComponent {
-  datos: any = {
-    id: '',
+  
+  nuevoProducto: Producto = {
+    id: 0,
     proveedor: '',
     categoria: '',
     nombreProducto: '',
     descripcion: '',
-    precio: ''
+    precio: 0,
   };
 
   constructor(private productoServicio: ProductosService) {}
 
   guardarDatos(){
-    this.productoServicio.postData(this.datos)
-    this.datos = { // blaqueo datos
-      id: '',
-      proveedor: '',
-      categoria: '',
-      nombreProducto: '',
-      descripcion: '',
-      precio: '',
+    this.productoServicio.postData(this.nuevoProducto)
+    form
     };
     
   }

@@ -1,13 +1,13 @@
 <app-navbar></app-navbar>
 <main class="d-flex">
     <app-sidebar></app-sidebar>
-    <div class="container mt-5">
+    <div class="container mt-5 col-5">
         <h2 class="mb-4">Nuevo Producto</h2>
     
         <form id="nuevoProductoForm">
           <!-- Datos Generales -->
           <div class="form-group">
-            <label for="id">SKU</label>
+            <label for="id">Id</label>
             <input type="text" class="form-control" id="id" name="id" [(ngModel)]="datos.id" required>
           </div>
         
@@ -35,8 +35,11 @@
             <label for="precio">Precio</label>
             <input type="text" class="form-control" id="precio" name="precio" [(ngModel)]="datos.precio">
           </div>
-        
-          <button class="btn btn-success my-4" (click)="guardarDatos()">Guardar</button>
+          
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-success my-4 px-5" (click)="guardarDatos()">Guardar</button>
+          </div>
+          
     
         </form>
     </div>

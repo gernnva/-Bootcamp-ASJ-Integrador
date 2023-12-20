@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { producto } from '../data/productosData';
+import { productosList } from '../data/productosData';
+import { Router } from '@angular/router';
+import { Producto } from '../models/Producto';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,15 +12,18 @@ import { producto } from '../data/productosData';
 
 export class ProductosService {
 
-  listaProductos: any  = producto;
-  constructor() {}
+  productos: Producto [] = [];
+  
+  constructor(private router: Router) {}
 
   public getDatos() {
-    return this.listaProductos;
+
+    return productosList;
   }
 
   public postData(producto: any){
-    this.listaProductos.push(producto);
-    console.log(this.listaProductos);
+    this.productos.push(producto);
+    alert("cargado Correctamente");
+    this.router.navigate(['/productos'])
   }
 }

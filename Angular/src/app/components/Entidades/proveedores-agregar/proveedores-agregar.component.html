@@ -1,100 +1,123 @@
-<section class="container">
-    <div class="container mt-5">
-        <h2 class="mb-4">Nuevo Proveedor</h2>
+<app-navbar></app-navbar>
+<main class="d-flex">
+    <app-sidebar></app-sidebar>
+    <section class="container">
+        <div class="container mt-5">
+            <h2 class="mb-4">Nuevo Proveedor</h2>
     
-        <form id="nuevoProveedorForm">
-          <!-- Datos Generales -->
-          <div class="form-group">
-            <label for="codigo">Código:</label>
-            <input type="text" class="form-control" id="codigo" name="codigo" required>
-          </div>
+            <!-- Datos Generales -->
+            <div class="">
+                <div class="d-flex">
+                    <div class="form-group col-2 pe-2">
+                        <label for="id">Código:</label>
+                        <input type="text" class="form-control" id="id" name="id" required />
+                    </div>
     
-          <div class="form-group">
-            <label for="razonSocial">Razón Social:</label>
-            <input type="text" class="form-control" id="razonSocial" name="razonSocial" required>
-          </div>
+                    <div class="form-group col-6 pe-2">
+                        <label for="razonSocial">Razón Social:</label>
+                        <input type="text" class="form-control" id="razonSocial" name="razonSocial" required />
+                    </div>
     
-          <div class="form-group">
-            <label for="rubro">Rubro:</label>
-            <input type="text" class="form-control" id="rubro" name="rubro" required>
-          </div>
+                    <div class="form-group col-4">
+                        <label for="rubro">Rubro:</label>
+                        <input type="text" class="form-control" id="rubro" name="rubro" required />
+                    </div>
+                </div>
     
-          <div class="form-group">
-            <label for="sitioWeb">Sitio Web:</label>
-            <input type="text" class="form-control" id="sitioWeb" name="sitioWeb">
-          </div>
+                <div class="form-group">
+                    <label for="sitioWeb">Sitio Web:</label>
+                    <input type="text" class="form-control" id="sitioWeb" name="sitioWeb" />
+                </div>
+            </div>
+            <!-- Dirección y Datos de Contacto-->
+            <div class="diryDatos d-flex">
+                <!-- Dirección -->
+                <div class="flex-fill">
+                    <h3 class="mt-4">Dirección</h3>
+                    <div class="border p-2 me-2">
+                        <div class="form-group">
+                            <label for="calle">Calle y Número:</label>
+                            <input type="text" class="form-control" id="calle" name="calle" />
+                        </div>
     
+                        <div class="form-group">
+                            <label for="cp">Código Postal:</label>
+                            <input type="text" class="form-control" id="cp" name="cp" />
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="localidad">Localidad:</label>
+                            <input type="text" class="form-control" id="localidad" name="localidad" />
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="provincia">Provincia:</label>
+                            <input type="text" class="form-control" id="provincia" name="provincia" />
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="pais">País:</label>
+                            <input type="text" class="form-control" id="pais" name="pais" />
+                        </div>
+                    </div>
+                </div>
+                <!-- Datos de Contacto -->
+                <div class="flex-fill">
+                    <h3 class="mt-4">Datos de Contacto</h3>
+                    <div class="border p-2">
+                        <div class="form-group">
+                            <label for="nombreContacto">Nombre:</label>
+                            <input type="text" class="form-control" id="nombreContacto" name="nombreContacto" required />
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="apellidoContacto">Apellido:</label>
+                            <input type="text" class="form-control" id="apellidoContacto" name="apellidoContacto"
+                                required />
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="telefonoContacto">Teléfono:</label>
+                            <input type="tel" class="form-control" id="telefonoContacto" name="telefonoContacto" />
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="emailContacto">Email:</label>
+                            <input type="email" class="form-control" id="emailContacto" name="emailContacto" required />
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="rolContacto">Rol:</label>
+                            <input type="text" class="form-control" id="rolContacto" name="rolContacto" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Datos Fiscales -->
+    
+            <div class="">
+                <h3 class="mt-4">Datos Fiscales</h3>
+                <div class="border p-2 me-2 d-flex">
+                    <div class="form-group me-2 flex-fill">
+                        <label for="cuit">CUIT:</label>
+                        <input type="text" class="form-control" id="cuit" name="cuit" />
+                    </div>
+        
+                    <div class="form-group flex-fill">
+                        <label for="condicionIva">Condición IVA:</label>
+                        <input type="text" class="form-control" id="condicionIva" name="condicionIva" />
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-danger p-3 my-3 me-2">Borrar Campos</button>
+                <button class="btn btn-success p-3 my-3 me-3">Agregar Proveedor</button>
+            </div>
+            
+        </div>
+    </section>
+</main>
+<app-footer></app-footer>
 
-    
-          <!-- Dirección -->
-          <h3 class="mt-4">Dirección</h3>
-    
-          <div class="form-group">
-            <label for="calle">Calle y Número:</label>
-            <input type="text" class="form-control" id="calle" name="calle">
-          </div>
-    
-          <div class="form-group">
-            <label for="cp">Código Postal:</label>
-            <input type="text" class="form-control" id="cp" name="cp">
-          </div>
-    
-          <div class="form-group">
-            <label for="localidad">Localidad:</label>
-            <input type="text" class="form-control" id="localidad" name="localidad">
-          </div>
-    
-          <div class="form-group">
-            <label for="provincia">Provincia:</label>
-            <input type="text" class="form-control" id="provincia" name="provincia">
-          </div>
-    
-          <div class="form-group">
-            <label for="pais">País:</label>
-            <input type="text" class="form-control" id="pais" name="pais">
-          </div>
-    
-          <!-- Datos Fiscales -->
-          <h3 class="mt-4">Datos Fiscales</h3>
-    
-          <div class="form-group">
-            <label for="cuit">CUIT:</label>
-            <input type="text" class="form-control" id="cuit" name="cuit">
-          </div>
-    
-          <div class="form-group">
-            <label for="condicionIva">Condición IVA:</label>
-            <input type="text" class="form-control" id="condicionIva" name="condicionIva">
-          </div>
 
-                        <!-- Datos de Contacto -->
-                        <h3 class="mt-4">Datos de Contacto</h3>
-    
-                        <div class="form-group">
-                          <label for="nombreContacto">Nombre:</label>
-                          <input type="text" class="form-control" id="nombreContacto" name="nombreContacto" required>
-                        </div>
-                  
-                        <div class="form-group">
-                          <label for="apellidoContacto">Apellido:</label>
-                          <input type="text" class="form-control" id="apellidoContacto" name="apellidoContacto" required>
-                        </div>
-                  
-                        <div class="form-group">
-                          <label for="telefonoContacto">Teléfono:</label>
-                          <input type="tel" class="form-control" id="telefonoContacto" name="telefonoContacto">
-                        </div>
-                  
-                        <div class="form-group">
-                          <label for="emailContacto">Email:</label>
-                          <input type="email" class="form-control" id="emailContacto" name="emailContacto" required>
-                        </div>
-                  
-                        <div class="form-group">
-                          <label for="rolContacto">Rol:</label>
-                          <input type="text" class="form-control" id="rolContacto" name="rolContacto">
-                        </div>
-    
-          <button type="submit" class="btn btn-success my-4">Agregar Proveedor</button>
-        </form>
-</section>
+<router-outlet></router-outlet>
