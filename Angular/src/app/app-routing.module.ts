@@ -9,16 +9,16 @@ import { ProveedoresAgregarComponent } from './components/Entidades/proveedores-
 const routes: Routes = [
   { path: '', component: InicioComponent },
   { path: 'productos', component: ProductosComponent },
-  { path: 'productos/agregar', component:ProductosAgregarComponent },
+  { path: 'productos/agregar', component: ProductosAgregarComponent },
+  { path: 'productos/editar/:id', component: ProductosAgregarComponent },
 
   { path: 'proveedores', component: ProveedoresComponent },
   { path: 'proveedores/agregar', component: ProveedoresAgregarComponent },
-
-
+  { path: 'proveedores/editar/:id', component: ProveedoresAgregarComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

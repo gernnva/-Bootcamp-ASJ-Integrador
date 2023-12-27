@@ -1,27 +1,57 @@
 <app-navbar></app-navbar>
-<section class="d-flex flex-column">
-    <div class="d-flex justify-content-between me-3" >
-        <h2>Proveedores</h2>
-        <a routerLink="/proveedores/agregar" class="btn btn-success" tabindex="-1" role="button" aria-disabled="true">Agregar Nuevo Proveedor</a>
+<main class="d-flex">
+  <app-sidebar></app-sidebar>
+  <section class="container">
+    <div class="d-flex justify-content-between m-3">
+      <h2>Proveedores</h2>
+      <a routerLink="/proveedores/agregar" class="btn btn-success" tabindex="-1" role="button"
+        aria-disabled="true">Agregar Nuevo Proveedor</a>
     </div>
     <div class="m-3 border">
-        <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Codigo</th>
-                <th scope="col">Razon Social</th>
-                <th scope="col">Rubro</th>
-                <th scope="col">Sitio Web</th>
-                <th scope="col">Contacto</th>
-                <th scope="col">Telefono</th>
-                <th scope="col">Editar / Borrar</th>
-              </tr>
-            </thead>
-            <tbody id="proveedoresTableBody">
-             
-            </tbody>
-          </table>
-    </div>   
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Codigo</th>
+            <th scope="col">Razon Social</th>
+            <th scope="col">Sitio Web / email / telefono</th>
+            <th scope="col">Apellido y Nombre</th>
+            <th scope="col">Editar / Borrar</th>
+          </tr>
+        </thead>
+        
+        <tbody id="proveedoresTableBody">
+          <tr *ngFor="let p of proveedores">
+            <td>{{ p.id }}</td>
+            <td>{{ p.razonSocial }}</td>
+            <td>
+              web:
+              <a href="http://{{ p.sitioWeb }}" target="_blank" *ngIf="p.sitioWeb">{{ p.sitioWeb }}</a><br />mail:{{
+              p.contacto.email }}<br />tel:{{
+              p.contacto.telefono
+              }}
+            </td>
+            <td>{{ p.contacto.apellido }} {{ p.contacto.nombre }}</td>
+            <td>
+              <button type="button" class="btn btn-warning" (click)="editProveedor(p.id)">
+                Edit
+              </button>
+              <button type="button" class="btn btn-danger" (click)="deleteProveedor(p.id)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="proveedores.length === 0" class="alert alert-warning mx-2" role="alert">
+        <h4 class="alert-heading">¡Tabla Vacia!</h4>
+        <p>No hay productos cargados.</p>
+        <hr>
+        <p class="mb-0">Agrega nuevos productos utilizando el botón "Agregar Producto".</p>
+      </div>
+    </div>
   </section>
+</main>
+
+
 <app-footer></app-footer>
 <router-outlet></router-outlet>

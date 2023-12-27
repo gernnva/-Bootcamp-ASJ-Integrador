@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,14 +30,16 @@ import { ProveedoresAgregarComponent } from './components/Entidades/proveedores-
     MainComponent,
     ProductosAgregarComponent,
     InicioComponent,
-    ProveedoresAgregarComponent,
+    ProveedoresAgregarComponent
+    
 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
