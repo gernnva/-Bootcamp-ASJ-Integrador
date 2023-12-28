@@ -28,10 +28,10 @@
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">Codigo</th>
+            <th scope="col" (click)="ordenarPorId()" style="cursor: pointer;">Codigo</th>
             <th scope="col">Proveedor</th>
             <th scope="col">Categoria</th>
-            <th scope="col">Nombre producto</th>
+            <th scope="col" (click)="ordenarPorNombre()" style="cursor: pointer;">Nombre Producto</th>
             <th scope="col">Descripcion</th>
             <th scope="col">Precio</th>
             <th scope="col">Editar / Borrar</th>

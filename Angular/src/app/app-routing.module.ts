@@ -5,6 +5,9 @@ import { InicioComponent } from './components/Templates/inicio/inicio.component'
 import { ProductosComponent } from './components/Entidades/productos/productos.component';
 import { ProveedoresComponent } from './components/Entidades/proveedores/proveedores.component';
 import { ProveedoresAgregarComponent } from './components/Entidades/proveedores-agregar/proveedores-agregar.component';
+import { OrdenesComponent } from './components/Entidades/ordenes/ordenes.component';
+import { OrdenesListarComponent } from './components/Entidades/ordenes-listar/ordenes-listar.component';
+
 
 const routes: Routes = [
   { path: '', component: InicioComponent },
@@ -15,6 +18,10 @@ const routes: Routes = [
   { path: 'proveedores', component: ProveedoresComponent },
   { path: 'proveedores/agregar', component: ProveedoresAgregarComponent },
   { path: 'proveedores/editar/:id', component: ProveedoresAgregarComponent },
+
+  { path: 'ordenCompra', component: OrdenesComponent },
+  { path: 'ordenCompra/lista', component: OrdenesListarComponent },
+
 ];
 
 @NgModule({

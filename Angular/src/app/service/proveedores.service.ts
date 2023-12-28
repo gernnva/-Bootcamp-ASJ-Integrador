@@ -37,8 +37,6 @@ export class ProveedoresService {
 
   /** GUARDAR */
   public postData(proveedor: Proveedor, banderaNuevo: boolean) {
-    console.log('acatamoProveedores');
-    console.log(proveedor);
 
     if (banderaNuevo) {
       console.log('entroEn proveedores');
@@ -85,6 +83,8 @@ export class ProveedoresService {
   /** OBTENER LOS DATOS PARA EDITAR */
   public editProveedor(proveedor: Proveedor): void {
     this.proveedorEditando = { ...proveedor };
+    console.log(this.proveedorEditando);
+    
     this.router.navigate(['/proveedores/editar', proveedor.id]);
   }
   /** OBTENER LOS DATOS de PAISES */

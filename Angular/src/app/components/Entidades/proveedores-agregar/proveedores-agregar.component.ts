@@ -11,7 +11,6 @@ import { tiposContribuyentes } from 'src/app/data/condicionIva';
   styleUrls: ['./proveedores-agregar.component.css'],
 })
 export class ProveedoresAgregarComponent {
-
   static nextId: number = 1;
   nuevoProveedor: Proveedor = {
     id: this.proveedorServicio.obtenerUltimoId() + 1, // a completar
@@ -38,15 +37,11 @@ export class ProveedoresAgregarComponent {
     },
   };
   banderaNuevo!: boolean;
-  paisesAll: any[] = [];
   countries: any[] = [];
   provinces: any[] = [];
-  selectedCountry: string = '';
-  selectedProvince: string = '';
-  contribuyentesCateg: string [] = [];
+  selectedCountry: any;
 
-
-
+  contribuyentesCateg: string[] = [];
 
   constructor(
     private proveedorServicio: ProveedoresService,
@@ -54,7 +49,6 @@ export class ProveedoresAgregarComponent {
   ) {}
 
   ngOnInit(): void {
-
     this.proveedorServicio.getCountries().subscribe((data: any) => {
       this.countries = data.geonames;
     });
@@ -72,33 +66,27 @@ export class ProveedoresAgregarComponent {
         }
       });
     }
-    this.proveedorServicio.paises().subscribe((data) => {
-      data.map((auxPais: { name: { common: any } }) => {
-        this.paisesAll.push(auxPais.name.common);
-      });
-      this.paisesAll.sort();
-
-      
-    });
   }
 
   onCountryChange(): void {
     if (this.selectedCountry) {
-      this.proveedorServicio.getProvinces(this.selectedCountry).subscribe((data: any) => {
-        this.provinces = data.geonames;
-      });
+      this.proveedorServicio
+        .getProvinces(this.selectedCountry.geonameId)
+        .subscribe((data: any) => {
+          this.provinces = data.geonames;
+        });
+      this.nuevoProveedor.direccion.pais = this.selectedCountry.countryName;
     }
   }
-
   public saveProveedor(): void {
     this.proveedorServicio.postData(this.nuevoProveedor, this.banderaNuevo);
   }
 
-  public paises(){
-    this.proveedorServicio.paises()
+  public paises() {
+    this.proveedorServicio.paises();
   }
 
-  public tiposIva(){
+  public tiposIva() {
     this.contribuyentesCateg = [...tiposContribuyentes];
   }
   // BORRO TODO MENOS EL ID
@@ -128,5 +116,4 @@ export class ProveedoresAgregarComponent {
       },
     };
   }
-
 }

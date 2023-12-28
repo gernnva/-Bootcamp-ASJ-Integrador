@@ -19,11 +19,11 @@ export class ProductosService {
   }
   /** OBTENER ULTIMO ID */
   public obtenerUltimoId(): number {
-    if (this.productos.length > 0) {
-      return this.productos[this.productos.length - 1].id;
-    } else {
-      return 0; //
-    }
+    const ultimoId = this.productos.reduce((maxId, producto) => {
+      return producto.id > maxId ? producto.id : maxId;
+    }, 0);
+  
+    return ultimoId;
   }
   /** OBTENER LOS DATOS */
   public getDatos(): Observable<Producto[]> {
@@ -33,12 +33,7 @@ export class ProductosService {
   }
   /** GUARDAR */
   public postData(producto: Producto, banderaNuevo: boolean) {
-    console.log("acatamo");
-    console.log(producto);
-    
     if (banderaNuevo) {
-      console.log("entro");
-      
       const nuevoId = this.obtenerUltimoId() + 1;
       producto.id = nuevoId;
 
@@ -83,7 +78,8 @@ export class ProductosService {
   /** OBTENER LOS DATOS PARA EDITAR */
   public editProducto(producto: Producto): void {
     this.productoEditando = { ...producto };
+    console.log(this.productoEditando);
+    
     this.router.navigate(['/productos/editar', producto.id]);
-    console.log('A');
   }
 }

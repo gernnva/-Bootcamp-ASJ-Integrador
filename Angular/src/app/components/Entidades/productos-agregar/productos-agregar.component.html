@@ -19,16 +19,26 @@
               name="proveedor"
               [(ngModel)]="nuevoProducto.proveedor"
             >
-              <option value="">Selecciona una categoria</option>
-              <option *ngFor="let p of proveedores" [value]="p">
-                {{ p.contacto.nombre }}
+              <option value="">Selecciona un Proveedor</option>
+              <option *ngFor="let p of proveedores" [value]="p.razonSocial">
+                {{ p.razonSocial }} - {{ p.contacto.nombre }} {{ p.contacto.apellido }}
               </option>
             </select>
           </div>
         
           <div class="form-group">
             <label for="categoria">Categoría</label>
-            <input type="text" class="form-control" id="categoria" name="categoria" [(ngModel)]="nuevoProducto.categoria" required>
+            <select
+              class="form-select"
+              id="categoria"
+              name="categoria"
+              [(ngModel)]="nuevoProducto.categoria"
+            >
+              <option value="">Selecciona una categoria</option>
+              <option *ngFor="let c of categorias" [value]="c">
+                {{ c }}
+              </option>
+            </select>
           </div>
         
           <div class="form-group">
@@ -38,7 +48,8 @@
         
           <div class="form-group">
             <label for="descripcion">Descripción</label>
-            <input type="text" class="form-control" id="descripcion" name="descripcion" [(ngModel)]="nuevoProducto.descripcion">
+            <!-- <input type="text" class="form-control" id="descripcion" name="descripcion" [(ngModel)]="nuevoProducto.descripcion"> -->
+            <textarea class="form-control" placeholder="Descripcion del producto" id="descripcion" name="descripcion" [(ngModel)]="nuevoProducto.descripcion" style="height: 100px"></textarea>
           </div>
         
           <div class="form-group">

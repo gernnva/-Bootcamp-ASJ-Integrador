@@ -1,0 +1,55 @@
+<app-navbar></app-navbar>
+<main class="d-flex">
+  <app-sidebar></app-sidebar>
+  <section class="d-flex flex-column flex-grow-1 mt-3 ms-3">
+    <div class="d-flex justify-content-between mx-3">
+      <h2>Órdenes de Compra</h2>
+      <div class="d-flex align-items-stretch">
+        <a routerLink="/ordenCompra" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">Volver</a>
+      </div>
+    </div>
+  
+    <div class="m-3 border">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Número de Orden</th>
+            <th scope="col">Fecha de Emisión</th>
+            <th scope="col">Fecha de Entrega</th>
+            <th scope="col">Total</th>
+            <th scope="col">Ver Detalles</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let orden of ordenesGuardadas">
+            <td>{{ orden.id }}</td>
+            <td>{{ orden.fechaEmision | date: 'dd/MM/yyyy' }}</td>
+            <td>{{ orden.fechaEntrega | date: 'dd/MM/yyyy' }}</td>
+            <td>{{ orden.precio | currency: 'ARS ' }}</td>
+            <td>
+              <button type="button" class="btn btn-info" (click)="verDetalles(orden)">Ver Detalles</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="ordenesGuardadas.length === 0" class="alert alert-warning mx-2" role="alert">
+        <h4 class="alert-heading">¡Tabla Vacía!</h4>
+        <p>No hay órdenes de compra guardadas.</p>
+      </div>
+    </div>
+    
+    <!-- Detalles de la orden (tarjeta) -->
+    <div *ngIf="ordenSeleccionada" class="card mt-3">
+      <div class="card-body">
+        <h5 class="card-title">Detalles de la Orden</h5>
+        <p>ID: {{ ordenSeleccionada.id }}</p>
+        <p>Fecha de Emisión: {{ ordenSeleccionada.fechaEmision | date: 'dd/MM/yyyy' }}</p>
+        <p>Fecha de Entrega: {{ ordenSeleccionada.fechaEntrega | date: 'dd/MM/yyyy' }}</p>
+        <p>Total: {{ ordenSeleccionada.precio | currency: 'ARS ' }}</p>
+        <!-- Agrega más detalles según tu modelo de datos -->
+        <button type="button" class="btn btn-secondary" (click)="cerrarDetalles()">Cerrar Detalles</button>
+      </div>
+    </div>
+  </section>
+</main>
+<app-footer></app-footer>

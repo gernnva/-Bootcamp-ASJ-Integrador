@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ProveedoresService } from 'src/app/service/proveedores.service';
 import { Proveedor } from 'src/app/models/Proveedor';
+import { categoriaProductos } from 'src/app/data/categoriaProductos';
 
 @Component({
   selector: 'app-productos-agregar',
@@ -22,7 +23,8 @@ export class ProductosAgregarComponent {
     precio: 0,
   };
    banderaNuevo!: boolean;
-   proveedores: any [] = [];
+   proveedores: Proveedor [] = [];
+   categorias: string [] = [];
 
   constructor(
     private productoServicio: ProductosService,
@@ -34,7 +36,7 @@ export class ProductosAgregarComponent {
     this.servProve.getDatos().subscribe((data: Proveedor[]) => {
       this.proveedores = data;
     });
-    
+    this.categoriaProductos();
     // Obtener el ID del producto de la ruta
     const id = this.route.snapshot.params['id'];
     this.banderaNuevo = id ? false : true;
@@ -43,9 +45,7 @@ export class ProductosAgregarComponent {
       this.productoServicio.getProductoById(id).subscribe((producto) => {
         if (producto) {
           this.nuevoProducto = { ...producto };
-          console.log('C');
 
-          // this.productoServicio.postData(this.nuevoProducto);
         }
       });
     }
@@ -54,5 +54,8 @@ export class ProductosAgregarComponent {
   public saveProduct(): void {
     this.productoServicio.postData(this.nuevoProducto, this.banderaNuevo);
 
+  }
+  public categoriaProductos(){
+    this.categorias = [...categoriaProductos];
   }
 }

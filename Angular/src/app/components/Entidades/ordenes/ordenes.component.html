@@ -1,0 +1,124 @@
+<app-navbar></app-navbar>
+<main class="d-flex">
+  <app-sidebar></app-sidebar>
+  <div class="container text-center">
+    <div class="row mt-3">
+      <div class="col border">
+        <h4 class="my-4">Agregar producto</h4>
+        <form action="">
+          <div class="mb-3">
+            <label for="proveedor" class="form-label">Proveedor:</label>
+            <select id="proveedor" class="form-select" name="proveedor" [(ngModel)]="proveedorSeleccionado"
+              (change)="filtrarProductosPorProveedor()">
+              <option value="" disabled selected>
+                Selecciona un proveedor
+              </option>
+              <option *ngFor="let proveedor of proveedores" [value]="proveedor">
+                {{ proveedor }}
+              </option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="producto" class="form-label">Productos:</label>
+            <select id="producto" class="form-select" name="producto" required [(ngModel)]="productoSeleccionado"
+              (change)="actualizarPrecio()">
+              <option *ngFor="let producto of productosFiltrados" [ngValue]="producto">
+                {{ producto.nombreProducto }}
+              </option>
+            </select>
+          </div>
+
+          <div class="mb-3 d-flex justify-content-evenly">
+            <div>
+              <label for="precio" class="form-label">Precio:</label>
+              <div class="d-flex">
+                <span class="input-group-text"> ${{precioProducto | currency: 'ARS ' }}</span>
+                <input id="precio" type="number" class="form-control" name="precio" required
+                  [(ngModel)]="precioProducto" readonly hidden />
+              </div>
+            </div>
+            <!-- <div class="input-group mb-3">
+                        <span class="input-group-text">$</span>
+                        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                        <span class="input-group-text">.00</span>
+                    </div> -->
+            <div>
+              <label for="cantidad" class="form-label">Cantidad:</label>
+              <input id="cantidad" type="number" class="form-control" name="cantidad" required
+                [(ngModel)]="cantProducto" />
+            </div>
+          </div>
+          <div class="my-5">
+            <button type="button" class="btn btn-success p-3" (click)="agregarProducto()">Agregar Producto</button>
+          </div>
+
+        </form>
+      </div>
+      <!-- formulario para ver los productos agregador para gestiona una ORDEN -->
+      <div class="col border">
+        <h4 class="my-4">Orden de Compra</h4>
+        <form action="">
+          <div class="mb-3 row">
+            <label for="numeroOrden" class="form-label col-auto align-self-center">Número de Orden: 0000 - </label>
+            <input type="text" class="form-control col" id="numeroOrden" name="numeroOrden" [(ngModel)]="nuevaOrden.id"
+              readonly>
+          </div>
+
+          <div class="mb-3 d-flex justify-content-center">
+            <div class="me-3">
+              <label for="fechaEmision" class="form-label">Fecha de Emisión (Hoy)</label>
+              <input type="text" class="form-control" id="fechaEmision" name="fechaEmision"
+              [(ngModel)]="nuevaOrden.fechaEmision" readonly>
+            </div>
+            <div>
+              <label for="fechaEntrega" class="form-label">Fecha de Entrega</label>
+              <input type="date" class="form-control" id="fechaEntrega" name="fechaEntrega"  [(ngModel)]="nuevaOrden.fechaEntrega">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="descripcion" class="form-label">Descripción</label>
+            <textarea class="form-control" id="descripcion" name="descripcion" [(ngModel)]="nuevaOrden.info"></textarea>
+          </div>
+
+          <!--iterar sobre los productos agregados -->
+
+          <div class="mb-3 d-flex justify-content-between">
+            <div class="me-3">
+              <strong>Item (Cantidad)</strong>
+            </div>
+            <div>
+              <strong>Precio</strong>
+            </div>
+          </div>
+
+          <div *ngFor="let producto of nuevaOrden.productos; let i = index" class="mb-3 d-flex justify-content-between">
+            <div class="me-3">
+              <!-- nombre del producto y su cantidad -->
+              {{ producto.nombre }} - ({{ producto.cantidad }})
+            </div>
+            <div>
+              <!-- precio total por producto y cantidad -->
+              Precio Total: {{ producto.precioUnitario * producto.cantidad | currency }}
+            </div>
+          </div>
+          <div class="mb-3 d-flex justify-content-end">
+            <div class="me-3">
+              <strong>Total</strong>
+            </div>
+            <div>
+              <!-- Muestra el total acumulado de los productos -->
+              {{ nuevaOrden.precio | currency }}
+            </div>
+          </div>
+          <div class="mb-3 d-flex justify-content-end">
+            <button class="btn btn-danger me-2" (click)="borrarProductos()">Borrar Productos</button>
+            <button class="btn btn-success" (click)="guardarOrden()">Guardar Orden</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+<app-footer></app-footer>
