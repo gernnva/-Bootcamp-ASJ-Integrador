@@ -39,7 +39,6 @@ export class ProveedoresService {
   public postData(proveedor: Proveedor, banderaNuevo: boolean) {
 
     if (banderaNuevo) {
-      console.log('entroEn proveedores');
 
       const nuevoId = this.obtenerUltimoId() + 1;
       proveedor.id = nuevoId;
@@ -83,7 +82,8 @@ export class ProveedoresService {
   /** OBTENER LOS DATOS PARA EDITAR */
   public editProveedor(proveedor: Proveedor): void {
     this.proveedorEditando = { ...proveedor };
-    console.log(this.proveedorEditando);
+    
+   
     
     this.router.navigate(['/proveedores/editar', proveedor.id]);
   }

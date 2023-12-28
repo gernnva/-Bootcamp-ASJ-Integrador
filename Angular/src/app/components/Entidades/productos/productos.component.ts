@@ -40,7 +40,6 @@ export class ProductosComponent implements OnInit {
     this.serv.getProductoById(id).subscribe((producto) => {
       if (producto) {
         this.serv.editProducto(producto); // Enviar el producto para editar
-        console.log('B');
       }
     });
   }

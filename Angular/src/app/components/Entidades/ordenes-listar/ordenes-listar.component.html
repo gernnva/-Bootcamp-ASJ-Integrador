@@ -46,7 +46,8 @@
         <p>Fecha de Emisión: {{ ordenSeleccionada.fechaEmision | date: 'dd/MM/yyyy' }}</p>
         <p>Fecha de Entrega: {{ ordenSeleccionada.fechaEntrega | date: 'dd/MM/yyyy' }}</p>
         <p>Total: {{ ordenSeleccionada.precio | currency: 'ARS ' }}</p>
-        <!-- Agrega más detalles según tu modelo de datos -->
+        <p>Observaciones: {{ ordenSeleccionada.info}}</p>
+      
         <button type="button" class="btn btn-secondary" (click)="cerrarDetalles()">Cerrar Detalles</button>
       </div>
     </div>

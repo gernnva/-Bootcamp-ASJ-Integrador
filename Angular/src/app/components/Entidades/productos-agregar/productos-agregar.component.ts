@@ -45,7 +45,7 @@ export class ProductosAgregarComponent {
       this.productoServicio.getProductoById(id).subscribe((producto) => {
         if (producto) {
           this.nuevoProducto = { ...producto };
-
+          this.nuevoProducto.proveedor = producto.proveedor;
         }
       });
     }

@@ -54,6 +54,8 @@ export class ProveedoresAgregarComponent {
     });
 
     this.tiposIva();
+    
+    
 
     // Obtener el ID del proveedor de la ruta
     const id = this.route.snapshot.params['id'];
@@ -69,7 +71,7 @@ export class ProveedoresAgregarComponent {
   }
 
   onCountryChange(): void {
-    if (this.selectedCountry) {
+    if (this.selectedCountry) {      
       this.proveedorServicio
         .getProvinces(this.selectedCountry.geonameId)
         .subscribe((data: any) => {
@@ -100,8 +102,8 @@ export class ProveedoresAgregarComponent {
         calle: '',
         cp: '',
         localidad: '',
-        provincia: '',
-        pais: '',
+        provincia: this.nuevoProveedor.direccion.provincia,
+        pais: this.nuevoProveedor.direccion.pais,
       },
       contacto: {
         nombre: '',

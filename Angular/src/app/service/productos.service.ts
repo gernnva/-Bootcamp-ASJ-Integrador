@@ -78,7 +78,6 @@ export class ProductosService {
   /** OBTENER LOS DATOS PARA EDITAR */
   public editProducto(producto: Producto): void {
     this.productoEditando = { ...producto };
-    console.log(this.productoEditando);
     
     this.router.navigate(['/productos/editar', producto.id]);
   }
