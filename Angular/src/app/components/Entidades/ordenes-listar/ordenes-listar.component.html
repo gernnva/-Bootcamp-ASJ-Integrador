@@ -5,11 +5,11 @@
     <div class="d-flex justify-content-between mx-3">
       <h2>Órdenes de Compra</h2>
       <div class="d-flex align-items-stretch">
-        <a routerLink="/ordenCompra" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">Volver</a>
+        <a routerLink="/ordenCompra" class="btn btn-secondary" tabindex="-1" role="button" aria-disabled="true">Volver</a>
       </div>
     </div>
   
-    <div class="m-3 border">
+    <div  *ngIf="!mostrarDetalles" class="m-3 border ">
       <table class="table">
         <thead>
           <tr>
@@ -39,7 +39,7 @@
     </div>
     
     <!-- Detalles de la orden (tarjeta) -->
-    <div *ngIf="ordenSeleccionada" class="card mt-3">
+    <div *ngIf="mostrarDetalles && ordenSeleccionada" class="card mt-3">
       <div class="card-body">
         <h5 class="card-title">Detalles de la Orden</h5>
         <p>ID: {{ ordenSeleccionada.id }}</p>
@@ -47,8 +47,15 @@
         <p>Fecha de Entrega: {{ ordenSeleccionada.fechaEntrega | date: 'dd/MM/yyyy' }}</p>
         <p>Total: {{ ordenSeleccionada.precio | currency: 'ARS ' }}</p>
         <p>Observaciones: {{ ordenSeleccionada.info}}</p>
+        <p> Productos de la orden:</p>
+        <ul>
+          <!-- Iterar sobre los productos de la orden -->
+          <li *ngFor="let producto of ordenSeleccionada.productos">
+            {{ producto.nombre }} - Cantidad: {{ producto.cantidad }} - Precio Unitario: {{ producto.precioUnitario | currency: 'ARS ' }}
+          </li>
+        </ul>
       
-        <button type="button" class="btn btn-secondary" (click)="cerrarDetalles()">Cerrar Detalles</button>
+        <button type="button" class="btn btn-secondary mt-2" (click)="cerrarDetalles()">Cerrar Detalles</button>
       </div>
     </div>
   </section>

@@ -9,9 +9,11 @@ import { Orden } from 'src/app/models/Orden';
 export class OrdenesListarComponent implements OnInit {
   ordenesGuardadas: Orden[] = [];
   ordenSeleccionada: Orden | undefined;
-  
+  mostrarDetalles: boolean = false;
+
   ngOnInit(): void {
     this.cargarOrdenesGuardadas();
+    this
   }
 
   cargarOrdenesGuardadas() {
@@ -21,9 +23,11 @@ export class OrdenesListarComponent implements OnInit {
 
   verDetalles(orden: Orden) {
     this.ordenSeleccionada = orden;
+    this.mostrarDetalles = true;
   }
 
   cerrarDetalles() {
     this.ordenSeleccionada = undefined;
+    this.mostrarDetalles = false;
   }
 }

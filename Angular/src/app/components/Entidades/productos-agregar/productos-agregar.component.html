@@ -2,7 +2,9 @@
 <main class="d-flex">
   <app-sidebar></app-sidebar>
   <div class="container mt-5 col-5">
-    <h2 class="mb-4">Nuevo Producto</h2>
+    <h2 class="mb-3">
+      {{ banderaNuevo ? "Agregando Producto" : "Editando Producto" }}
+    </h2>
 
     <section id="nuevoProductoForm">
       <!-- Datos Generales -->
@@ -53,12 +55,15 @@
 
       <div class="form-group">
         <label for="precio">Precio</label>
-        <input type="text" class="form-control" id="precio" name="precio" [(ngModel)]="nuevoProducto.precio">
+        <div class="input-group">
+          <span class="input-group-text">$</span>
+          <input type="text" class="form-control" id="precio" name="precio" [(ngModel)]="nuevoProducto.precio">
+        </div>
       </div>
 
       <div class="d-flex justify-content-end">
         <button class="btn btn-info my-4 px-5 me-4" routerLink="/productos">Volver</button>
-        <button class="btn btn-success my-4 px-5" (click)="saveProduct()">Guardar</button>
+        <button class="btn btn-success my-4 px-5" (click)="saveProduct()">{{ banderaNuevo ? "Agregar Producto" : "Editar Producto" }}</button>
       </div>
 
 
