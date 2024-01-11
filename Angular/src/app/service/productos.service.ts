@@ -10,7 +10,7 @@ export class ProductosService {
   productos: Producto[] = [];
   productoEditando: Producto | undefined;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   /** OBTENER UN PRODUCTO POR ID */
   public getProductoById(id: number): Observable<Producto | undefined> {
@@ -22,7 +22,7 @@ export class ProductosService {
     const ultimoId = this.productos.reduce((maxId, producto) => {
       return producto.id > maxId ? producto.id : maxId;
     }, 0);
-  
+
     return ultimoId;
   }
   /** OBTENER LOS DATOS */
@@ -40,23 +40,15 @@ export class ProductosService {
       this.getDatos().subscribe((data) => {
         const updatedProductos = [...data, producto];
         this.guardarDatos(updatedProductos);
-        alert('Cargado correctamente');
-        this.router.navigate(['/productos']);
       });
-    } else{ 
+    } else {
       this.getDatos().subscribe((data) => {
-        const index  = data.findIndex((p) => p.id === producto.id);
+        const index = data.findIndex((p) => p.id === producto.id);
+        // Reemplaza el producto existente con el nuevo
+        data[index] = producto;
+        this.guardarDatos(data);
+        alert('Actualizado correctamente');
 
-        if (index !== -1) {
-          // Reemplaza el producto existente con el nuevo
-          data[index] = producto;
-          this.guardarDatos(data);
-          alert('Actualizado correctamente');
-          this.router.navigate(['/productos']);
-        } else {
-          // Manejar el caso en que no se encuentra el producto
-          console.error('Producto no encontrado para actualizar');
-        }
       });
 
 
@@ -78,7 +70,7 @@ export class ProductosService {
   /** OBTENER LOS DATOS PARA EDITAR */
   public editProducto(producto: Producto): void {
     this.productoEditando = { ...producto };
-    
+
     this.router.navigate(['/productos/editar', producto.id]);
   }
 }

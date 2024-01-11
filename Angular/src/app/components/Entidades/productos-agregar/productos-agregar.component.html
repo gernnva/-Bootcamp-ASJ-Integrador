@@ -10,14 +10,19 @@
       <!-- Datos Generales -->
       <div class="form-group">
         <label for="id">Id</label>
-        <input type="text" class="form-control" id="id" name="id" [(ngModel)]="nuevoProducto.id" readonly>
+        <input type="text" class="form-control" id="id" name="id" [(ngModel)]="nuevoProducto.id" readonly disabled>
+      </div>
+
+      <div class="form-group">
+        <label for="sku">sku</label>
+        <input type="text" class="form-control" id="sku" name="sku" [(ngModel)]="nuevoProducto.sku" >
       </div>
 
       <div class="form-group">
         <label for="proveedor">Proveedor</label>
         <!-- Si está en modo de edición, muestra un input deshabilitado -->
         <ng-container *ngIf="!banderaNuevo; else selectProveedor">
-          <input type="text" class="form-control" id="proveedor" name="proveedor" [(ngModel)]="nuevoProducto.proveedor" readonly>
+          <input type="text" class="form-control" id="proveedor" name="proveedor" [(ngModel)]="nuevoProducto.proveedor" readonly disabled>
         </ng-container>
         <!-- Si no está en modo de edición, muestra el select normal -->
         <ng-template #selectProveedor>

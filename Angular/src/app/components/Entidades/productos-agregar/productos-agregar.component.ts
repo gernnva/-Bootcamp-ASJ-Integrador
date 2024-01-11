@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ProductosService } from 'src/app/service/productos.service';
 import { Producto } from 'src/app/models/Producto';
 import { Observable } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProveedoresService } from 'src/app/service/proveedores.service';
 import { Proveedor } from 'src/app/models/Proveedor';
 import { categoriaProductos } from 'src/app/data/categoriaProductos';
@@ -16,6 +16,7 @@ export class ProductosAgregarComponent {
   static nextId: number = 1;
   nuevoProducto: Producto = {
     id: this.productoServicio.obtenerUltimoId() + 1,
+    sku: '',
     proveedor: '',
     categoria: '',
     nombreProducto: '',
@@ -29,7 +30,8 @@ export class ProductosAgregarComponent {
   constructor(
     private productoServicio: ProductosService,
     private route: ActivatedRoute,
-    public servProve: ProveedoresService
+    public servProve: ProveedoresService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -53,6 +55,7 @@ export class ProductosAgregarComponent {
 
   public saveProduct(): void {
     this.productoServicio.postData(this.nuevoProducto, this.banderaNuevo);
+    this.router.navigate(['/productos']);
 
   }
   public categoriaProductos(){
