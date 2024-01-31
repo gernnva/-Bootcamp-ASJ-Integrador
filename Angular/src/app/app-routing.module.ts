@@ -11,9 +11,19 @@ import { OrdenesListarComponent } from './components/Entidades/ordenes-listar/or
 
 const routes: Routes = [
   { path: '', component: InicioComponent },
-  { path: 'productos', component: ProductosComponent },
-  { path: 'productos/agregar', component: ProductosAgregarComponent },
-  { path: 'productos/editar/:id', component: ProductosAgregarComponent },
+
+  {
+    path: 'productos',
+    component: ProductosComponent,
+    children: [
+      { path: 'agregar', component: ProductosAgregarComponent },
+      { path: 'editar/:id', component: ProductosAgregarComponent }
+    ],
+  },
+  
+  // { path: 'productos', component: ProductosComponent, },
+  // { path: 'productos/agregar', component: ProductosAgregarComponent },
+  // { path: 'productos/editar/:id', component: ProductosAgregarComponent },
 
   { path: 'proveedores', component: ProveedoresComponent },
   { path: 'proveedores/agregar', component: ProveedoresAgregarComponent },

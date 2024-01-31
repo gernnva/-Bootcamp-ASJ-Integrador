@@ -17,6 +17,8 @@ import { InicioComponent } from './components/Templates/inicio/inicio.component'
 import { FormsModule } from '@angular/forms';
 import { ProveedoresAgregarComponent } from './components/Entidades/proveedores-agregar/proveedores-agregar.component';
 import { OrdenesListarComponent } from './components/Entidades/ordenes-listar/ordenes-listar.component';
+import { ModalAgregarEditarComponent } from './components/Entidades/modal-agregar-editar/modal-agregar-editar.component';
+
 
 
 
@@ -34,6 +36,8 @@ import { OrdenesListarComponent } from './components/Entidades/ordenes-listar/or
     InicioComponent,
     ProveedoresAgregarComponent,
     OrdenesListarComponent,
+    ModalAgregarEditarComponent,
+
 
     
 
