@@ -23,17 +23,17 @@ public class CategoriaServicio {
 	@Autowired
     private RubroRepositorio rubroRepositorio;
 
-	// Lista para todos las categorias
+	// LISTAR TODAS LAS CATEGORIAS
 	public List<Categoria> listarCategorias() {
 		return categoriaRepositorio.findAll();
 	}
 
-	// una categoria por id
+	// BUSCAR UNA CATEGORIA
 	public Optional<Categoria> categoriaById(Integer id) {
 		return categoriaRepositorio.findById(id);
 	}
 	
-	// crear
+	// CREAR UNA CATEGORIA
     public Categoria crearCategoria(Categoria categoria) {
         // Buscar el Rubro por su ID
         Optional<Rubro> rubro = rubroRepositorio.findById(categoria.getRubro().getId_rubro());
@@ -51,7 +51,7 @@ public class CategoriaServicio {
         return categoriaRepositorio.save(nuevaCategoria);
     }
     
-    // update
+    // UPDATE DE UNA CATEGORIA
     public Categoria actualizarCategoria(Integer idCategoria, Categoria categoriaActualizada) {
         Optional<Categoria> categoriaExistente = categoriaRepositorio.findById(idCategoria);
         	
@@ -67,6 +67,20 @@ public class CategoriaServicio {
         } else {
             // Manejar la lógica si la categoría no existe
             throw new NoSuchElementException("La categoría no existe con el ID proporcionado.");
+        }
+    }
+    
+    // ELIMINADO LOGICO DE UNA CATEGORIA
+    public Categoria cambiarEstadoEliminado(Integer idCategoria) {
+        Optional<Categoria> respuesta = categoriaRepositorio.findById(idCategoria);
+
+        if (respuesta.isPresent()) {
+            Categoria categoria = respuesta.get();
+            categoria.setEliminado(!categoria.isEliminado()); // Cambia el estado eliminado al opuesto
+            categoria.setReg_modificado(LocalDateTime.now());
+            return categoriaRepositorio.save(categoria);
+        } else {
+            throw new NoSuchElementException("Categoría no encontrada con ID: " + idCategoria);
         }
     }
     

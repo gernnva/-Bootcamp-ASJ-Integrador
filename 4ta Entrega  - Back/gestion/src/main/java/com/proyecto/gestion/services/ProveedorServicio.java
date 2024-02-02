@@ -188,10 +188,7 @@ public class ProveedorServicio {
     public Proveedor cambiarEstadoEliminado(Integer idProveedor) {
         Optional<Proveedor> respuesta = proveedorRepositorio.findById(idProveedor);
         
-        
         if (respuesta.isPresent()) {
-        	
-       //	respuesta.get().setEliminado(!respuesta.get().isEliminado());
             Proveedor proveedor = respuesta.get();
             proveedor.setEliminado(!proveedor.isEliminado()); // Cambia el estado eliminado al opuesto
             proveedor.setReg_modificado(LocalDateTime.now());

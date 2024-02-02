@@ -14,29 +14,36 @@ public class Producto {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id_producto;
+	private Integer id_producto;//
 	@ManyToOne(fetch = FetchType.EAGER)
-	private Proveedor proveedor;
+	private Proveedor proveedor; //
 	@ManyToOne(fetch = FetchType.EAGER)
-	private Categoria categoria;
-	private String nombre;
-	private String Descripcion;
-	private Double precio;
+	private Categoria categoria;//
+	private String sku;
+	private String nombre;//
 	
+	
+	private String Descripcion;//
+	private Double precio;//
+	
+	private boolean eliminado;
 	private LocalDateTime reg_creado;
     private LocalDateTime reg_modificado;
 	
 	public Producto() {
 	}
 
-	public Producto(Integer id_producto, Proveedor proveedor, Categoria categoria, String nombre, String descripcion,
-			Double precio, LocalDateTime reg_creado, LocalDateTime reg_modificado) {
+	public Producto(Integer id_producto, Proveedor proveedor, Categoria categoria, String sku, String nombre,
+			String descripcion, Double precio, boolean eliminado, LocalDateTime reg_creado,
+			LocalDateTime reg_modificado) {
 		this.id_producto = id_producto;
 		this.proveedor = proveedor;
 		this.categoria = categoria;
+		this.sku = sku;
 		this.nombre = nombre;
 		Descripcion = descripcion;
 		this.precio = precio;
+		this.eliminado = eliminado;
 		this.reg_creado = reg_creado;
 		this.reg_modificado = reg_modificado;
 	}
@@ -65,6 +72,14 @@ public class Producto {
 		this.categoria = categoria;
 	}
 
+	public String getSku() {
+		return sku;
+	}
+
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -87,6 +102,14 @@ public class Producto {
 
 	public void setPrecio(Double precio) {
 		this.precio = precio;
+	}
+
+	public boolean isEliminado() {
+		return eliminado;
+	}
+
+	public void setEliminado(boolean eliminado) {
+		this.eliminado = eliminado;
 	}
 
 	public LocalDateTime getReg_creado() {

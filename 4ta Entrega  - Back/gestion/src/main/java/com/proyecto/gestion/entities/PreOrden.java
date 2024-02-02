@@ -3,6 +3,7 @@ package com.proyecto.gestion.entities;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,15 +19,17 @@ public class PreOrden {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id_preOrden;
 	
-	@OneToOne
+	@ManyToOne(fetch = FetchType.EAGER)
     private Producto productos;
 	
-	private Integer cantidad;
+	private Integer cantidad; 
 	private Double Subtotal;
+//	
+//	@ManyToOne
+//    @JoinColumn(name = "idOrden")  // Nombre de la columna que representa la relación en la tabla PreOrden
+//    private Orden orden;
+//	
 	
-	@ManyToOne
-    @JoinColumn(name = "idOrden")  // Nombre de la columna que representa la relación en la tabla PreOrden
-    private Orden orden;
 	
 	private Date reg_creado = new Date();
 	private Date reg_modificado = new Date();
@@ -34,13 +37,13 @@ public class PreOrden {
 	public PreOrden() {
 	}
 
-	public PreOrden(Integer id_preOrden, Producto productos, Integer cantidad, Double subtotal, Orden orden,
-			Date reg_creado, Date reg_modificado) {
+	public PreOrden(Integer id_preOrden, Producto productos, Integer cantidad, Double subtotal,
+			Integer idOrden, Date reg_creado, Date reg_modificado) {
 		this.id_preOrden = id_preOrden;
 		this.productos = productos;
 		this.cantidad = cantidad;
 		Subtotal = subtotal;
-		this.orden = orden;
+
 		this.reg_creado = reg_creado;
 		this.reg_modificado = reg_modificado;
 	}
@@ -77,14 +80,6 @@ public class PreOrden {
 		Subtotal = subtotal;
 	}
 
-	public Orden getOrden() {
-		return orden;
-	}
-
-	public void setOrden(Orden orden) {
-		this.orden = orden;
-	}
-
 	public Date getReg_creado() {
 		return reg_creado;
 	}
@@ -101,6 +96,4 @@ public class PreOrden {
 		this.reg_modificado = reg_modificado;
 	}
 	
-	
-
 }

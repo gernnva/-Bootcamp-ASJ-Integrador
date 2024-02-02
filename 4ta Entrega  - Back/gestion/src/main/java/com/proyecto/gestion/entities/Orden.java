@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -20,11 +19,11 @@ public class Orden {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id_Orden;
 	
-	private Date fechaEmision = new Date();
+	private Date fechaEmision;
 	private Date fechaEntrega;
 	private String descripcion;
 	
-	@OneToMany(mappedBy = "orden", cascade = CascadeType.ALL)
+	@OneToMany
     private List<PreOrden> preordenes = new ArrayList<>();
 
 	private Double Total;
