@@ -8,13 +8,14 @@ import { ProveedoresService } from 'src/app/service/proveedores.service';
   styleUrls: ['./proveedores.component.css'],
 })
 export class ProveedoresComponent {
-  proveedores: Proveedor[] = [];
+  proveedores: any[] = [];
 
-  constructor(public serv: ProveedoresService) {}
+  constructor(public servicioProveedor: ProveedoresService) {}
 
   ngOnInit(): void {
-    this.serv.getDatos().subscribe((data: Proveedor[]) => {
+    this.servicioProveedor.obtenerProveedores().subscribe(data => {
       this.proveedores = data;
+      console.log(this.proveedores)
     });
   }
 
@@ -25,18 +26,18 @@ export class ProveedoresComponent {
 
     if (confirmDelete) {
       // Si el usuario confirma, proceder con la eliminación
-      this.serv.deleteProveedor(id);
+      this.servicioProveedor.deleteProveedor(id);
 
       // Actualizar la lista de proveedores después de la eliminación
-      this.serv.getDatos().subscribe((data: Proveedor[]) => {
+      this.servicioProveedor.obtenerProveedores().subscribe(data => {
         this.proveedores = data;
       });
     }
   }
   public editProveedor(id: number): void {
-    this.serv.getProveedorById(id).subscribe((proveedor) => {
+    this.servicioProveedor.getProveedorById(id).subscribe((proveedor) => {
       if (proveedor) {
-        this.serv.editProveedor(proveedor); // Enviar el producto para editar
+        this.servicioProveedor.editProveedor(proveedor); // Enviar el producto para editar
       }
     });
   }

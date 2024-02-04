@@ -15,34 +15,33 @@
       <table class="table">
         <thead>
           <tr>
+            <th scope="col">Logo</th>
             <th scope="col">Codigo</th>
             <th scope="col">Razon Social</th>
-            <th scope="col">Sitio Web / email / telefono</th>
+            <th scope="col">Pais, Provincia</th>
             <th scope="col">Apellido y Nombre</th>
-            <th scope="col">Editar / Borrar</th>
+            <th scope="col">Contacto</th>
+            <th scope="col">Acciones</th>
           </tr>
         </thead>
 
         <tbody id="proveedoresTableBody">
           <tr *ngFor="let p of proveedores">
-            <td>{{ p.id }}</td>
-            <td>{{ p.razonSocial }}</td>
-            <td>
-              web:
-              <a href="http://{{ p.sitioWeb }}" target="_blank" *ngIf="p.sitioWeb">{{ p.sitioWeb }}</a><br />mail: {{
-              p.contacto.email }}<br />tel: {{
-              p.contacto.telefono
-              }}
-            </td>
-            <td>{{ p.contacto.apellido }} {{ p.contacto.nombre }}</td>
+            <td>{{ p.logo }}</td>
+            <td>{{ p.codProveedor }}</td>
+            <td>{{ p.razon_social}}</td>
+            <td>{{ p.direccion.provincia.nombreProvincia}},{{ p.direccion.provincia.country.nombrePais}}</td>
+            <td>{{ p.contactoInfo.apellido}}, {{ p.contactoInfo.nombre}}</td>
+            <td>{{ p.contactoInfo.apellido}}, {{ p.contactoInfo.nombre}}</td>
             <td>
               <button type="button" class="btn btn-warning" (click)="editProveedor(p.id)">
-                Edit
+                
               </button>
               <button type="button" class="btn btn-danger" (click)="deleteProveedor(p.id)">
-                Delete
+               
               </button>
             </td>
+            
           </tr>
         </tbody>
       </table>

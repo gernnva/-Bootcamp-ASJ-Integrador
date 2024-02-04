@@ -35,7 +35,7 @@ export class ProductosAgregarComponent {
   ) {}
 
   ngOnInit(): void {
-    this.servProve.getDatos().subscribe((data: Proveedor[]) => {
+    this.servProve.obtenerProveedores().subscribe((data: Proveedor[]) => {
       this.proveedores = data;
     });
     this.categoriaProductos();

@@ -11,7 +11,7 @@ export class ProveedoresService {
   proveedores: Proveedor[] = [];
   proveedorEditando: Proveedor | undefined;
   todosPaises: any[] = [];
-  private apiUrl = 'http://api.geonames.org';
+  private apiUrl = 'http://localhost:8080/proveedor';
 
   constructor(private router: Router, private http: HttpClient) {}
 
@@ -20,52 +20,13 @@ export class ProveedoresService {
     const proveedor = this.proveedores.find((p) => p.id == id);
     return of(proveedor);
   }
-  /** OBTENER ULTIMO ID */
-  public obtenerUltimoId(): number {
-    if (this.proveedores.length > 0) {
-      return this.proveedores[this.proveedores.length - 1].id;
-    } else {
-      return 0; //
-    }
-  }
-  /** OBTENER LOS DATOS */
-  public getDatos(): Observable<Proveedor[]> {
-    const storedProductos = localStorage.getItem('proveedores');
-    this.proveedores = storedProductos ? JSON.parse(storedProductos) : [];
-    return of(this.proveedores);
+
+  /** OBTENER LOS DATOS PROVEEDORES  ver el tema cambio de tipado a los que corresponda*/
+  public obtenerProveedores(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl)
   }
 
-  /** GUARDAR */
-  public postData(proveedor: Proveedor, banderaNuevo: boolean) {
-
-    if (banderaNuevo) {
-
-      const nuevoId = this.obtenerUltimoId() + 1;
-      proveedor.id = nuevoId;
-
-      this.getDatos().subscribe((data) => {
-        const updatedProveedores = [...data, proveedor];
-        this.guardarDatos(updatedProveedores);
-        alert('Cargado correctamente');
-        this.router.navigate(['/proveedores']); // configurar la path
-      });
-    } else {
-      this.getDatos().subscribe((data) => {
-        const index = data.findIndex((p) => p.id === proveedor.id);
-
-        if (index !== -1) {
-          // Reemplaza el producto existente con el nuevo
-          data[index] = proveedor;
-          this.guardarDatos(data);
-          alert('Actualizado correctamente');
-          this.router.navigate(['/proveedores']);
-        } else {
-          // Manejar el caso en que no se encuentra el producto
-          console.error('Producto no encontrado para actualizar');
-        }
-      });
-    }
-  }
+  
 
   /** GUARDAR EN EL LOCALSTORAGE*/
   private guardarDatos(proveedores: Proveedor[]) {

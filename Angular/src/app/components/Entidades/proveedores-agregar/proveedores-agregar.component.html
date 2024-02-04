@@ -15,7 +15,7 @@
         <div class="d-flex">
           <div class="form-group col-2 pe-2">
             <label for="id">Código:</label>
-            <input type="text" class="form-control" id="id" name="id" [(ngModel)]="nuevoProveedor.id" readonly />
+            <input type="text" class="form-control" id="id" name="id" [(ngModel)]="nuevoProveedor.sku" />
           </div>
 
           <div class="form-group col-6 pe-2">
@@ -160,7 +160,7 @@
         <button class="btn btn-danger p-3 my-3 me-2" (click)="resetCampos()">
           Borrar Campos
         </button>
-        <button class="btn btn-success p-3 my-3 me-3" (click)="saveProveedor()">
+        <button class="btn btn-success p-3 my-3 me-3">
           {{ banderaNuevo ? "Agregar Proveedor" : "Editar Proveedor" }}
         </button>
       </div>

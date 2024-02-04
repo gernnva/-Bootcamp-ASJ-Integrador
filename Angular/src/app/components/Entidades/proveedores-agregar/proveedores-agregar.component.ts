@@ -11,9 +11,10 @@ import { tiposContribuyentes } from 'src/app/data/condicionIva';
   styleUrls: ['./proveedores-agregar.component.css'],
 })
 export class ProveedoresAgregarComponent {
-  static nextId: number = 1;
+  
   nuevoProveedor: Proveedor = {
-    id: this.proveedorServicio.obtenerUltimoId() + 1, // a completar
+    id: 0,
+    sku: '', // a completar
     razonSocial: '',
     rubro: '',
     sitioWeb: '',
@@ -80,9 +81,7 @@ export class ProveedoresAgregarComponent {
       this.nuevoProveedor.direccion.pais = this.selectedCountry.countryName;
     }
   }
-  public saveProveedor(): void {
-    this.proveedorServicio.postData(this.nuevoProveedor, this.banderaNuevo);
-  }
+
 
   public paises() {
     this.proveedorServicio.paises();
@@ -94,7 +93,8 @@ export class ProveedoresAgregarComponent {
   // BORRO TODO MENOS EL ID
   public resetCampos(): void {
     this.nuevoProveedor = {
-      id: this.nuevoProveedor.id,
+      id: 0,
+      sku: '',
       razonSocial: '',
       rubro: '',
       sitioWeb: '',

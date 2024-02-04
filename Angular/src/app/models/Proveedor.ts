@@ -1,5 +1,6 @@
 export interface Proveedor {
     id: number;
+    sku: string;
     razonSocial: string;
     rubro: string;
     sitioWeb?: string;
