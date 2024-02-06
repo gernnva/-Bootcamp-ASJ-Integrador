@@ -86,10 +86,10 @@ VALUES ('Gómez', 'gomez@example.com', 'María', '2024-02-02 14:35:00', '2024-02
 -- INSERTANDO PROVEEDORES
 
 INSERT INTO PROVEEDOR (COD_PROVEEDOR, CUIT, ELIMINADO, EMAIL, LOGO, PAGINA_WEB, RAZON_SOCIAL, REG_CREADO, REG_MODIFICADO, ID_CONDICION_IVA, ID_CONTACTO_INFO, ID_DIRECCION, RUBRO_ID_RUBRO)
-VALUES ('PROV001', '30578901234', false, 'proveedor1@example.com', 'logo_url_1', 'www.proveedor1.com', 'Proveedor Uno S.A.', '2024-02-02 14:40:00', '2024-02-02 14:40:00', 1, 1, 1, 1);
+VALUES ('PROV001', '30578901234', false, 'proveedor1@example.com', 'https://ams3.digitaloceanspaces.com/graffica/2023/02/cocacola-logo.jpeg', 'www.proveedor1.com', 'Proveedor Uno S.A.', '2024-02-02 14:40:00', '2024-02-02 14:40:00', 1, 1, 1, 1);
 
 INSERT INTO PROVEEDOR (COD_PROVEEDOR, CUIT, ELIMINADO, EMAIL, LOGO, PAGINA_WEB, RAZON_SOCIAL, REG_CREADO, REG_MODIFICADO, ID_CONDICION_IVA, ID_CONTACTO_INFO, ID_DIRECCION, RUBRO_ID_RUBRO)
-VALUES ('PROV002', '30765432109', false, 'proveedor2@example.com', 'logo_url_2', 'www.proveedor2.com', 'Proveedor Dos S.A.', '2024-02-02 14:45:00', '2024-02-02 14:45:00', 2, 2, 2, 3);
+VALUES ('PROV002', '30765432109', false, 'proveedor2@example.com', 'https://media.c5n.com/p/71564fc2250e47e03324509e2621a620/adjuntos/326/imagenes/000/178/0000178160/790x0/smart/cetrogar-logo-ok.png', 'www.proveedor2.com', 'Proveedor Dos S.A.', '2024-02-02 14:45:00', '2024-02-02 14:45:00', 2, 2, 2, 3);
 
 
 
