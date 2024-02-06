@@ -4,6 +4,8 @@ import { Proveedor } from 'src/app/models/Proveedor';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { tiposContribuyentes } from 'src/app/data/condicionIva';
+import { CategoriasService } from 'src/app/service/categorias.service';
+import { rubrosProveedores } from 'src/app/data/rubrosProveedores';
 
 @Component({
   selector: 'app-proveedores-agregar',
@@ -11,84 +13,79 @@ import { tiposContribuyentes } from 'src/app/data/condicionIva';
   styleUrls: ['./proveedores-agregar.component.css'],
 })
 export class ProveedoresAgregarComponent {
-  
-  nuevoProveedor: Proveedor = {
-    id: 0,
-    sku: '', // a completar
+  nuevoProveedor: any = {
+    id_proveedor: 0,
+    logo: '',
+    codPoveedor: '',
+    email: '',
     razonSocial: '',
-    rubro: '',
-    sitioWeb: '',
+    rubro: {
+      id_rubro: 0,
+    },
+    paginaWeb: '',
     direccion: {
       calle: '',
-      cp: '',
-      localidad: '',
-      provincia: '',
-      pais: '',
+      numCalle: 0,
+      ciudad: '',
+      codPostal: '',
+      provincia: {
+        id_provincia: 0,
+      },
     },
-    contacto: {
+    cuit: '',
+    cond_iva: {
+      id_condicionIva: 0,
+    },
+    contactoInfo: {
       nombre: '',
       apellido: '',
-      telefono: '',
+      telFijo: '',
+      telCelular: '',
       email: '',
       rol: '',
     },
-    datosFiscales: {
-      cuit: '',
-      condicionIva: '',
-    },
   };
-  banderaNuevo!: boolean;
-  countries: any[] = [];
-  provinces: any[] = [];
-  selectedCountry: any;
 
-  contribuyentesCateg: string[] = [];
+  paises: any[] = [];
+  provincias: any[] = [];
+  paisElegido: any;
+  rubros: string[] = [];
+  condicionesIva: any[] = [];
+
+  contribuyentesCateg: string[] = []; // buscar en la api los tipos
 
   constructor(
-    private proveedorServicio: ProveedoresService,
-    private route: ActivatedRoute
+    private servicioProveedor: ProveedoresService,
+    private route: ActivatedRoute,
+    private servicioCategoria: CategoriasService
   ) {}
 
   ngOnInit(): void {
-    this.proveedorServicio.getCountries().subscribe((data: any) => {
-      this.countries = data.geonames;
+    this.traerPaises();
+    this.cargarRubros();
+    this.traerCondicionesIva()
+  }
+
+  public traerPaises() {
+    this.servicioProveedor.obtenerPaises().subscribe((data) => {
+      this.paises = data;
+      console.log(this.paises);
     });
+  }
 
-    this.tiposIva();
-    
-    
-
-    // Obtener el ID del proveedor de la ruta
-    const id = this.route.snapshot.params['id'];
-    this.banderaNuevo = id ? false : true;
-    // Si hay un ID, obtener el proveedor del servicio
-    if (id) {
-      this.proveedorServicio.getProveedorById(id).subscribe((proveedor) => {
-        if (proveedor) {
-          this.nuevoProveedor = { ...proveedor };
-        }
+  public traerProvincias() {
+    this.servicioProveedor
+      .obtenerProvincias(this.paisElegido.id_pais)
+      .subscribe((data) => {
+        this.provincias = data;
       });
-    }
   }
 
-  onCountryChange(): void {
-    if (this.selectedCountry) {      
-      this.proveedorServicio
-        .getProvinces(this.selectedCountry.geonameId)
-        .subscribe((data: any) => {
-          this.provinces = data.geonames;
-        });
-      this.nuevoProveedor.direccion.pais = this.selectedCountry.countryName;
-    }
-  }
+  public traerCondicionesIva(){
+    this.servicioProveedor.obtenerCondicionesIva().subscribe((data => {
+      this.condicionesIva = data;
+    }))
 
-
-  public paises() {
-    this.proveedorServicio.paises();
-  }
-
-  public tiposIva() {
-    this.contribuyentesCateg = [...tiposContribuyentes];
   }
   // BORRO TODO MENOS EL ID
   public resetCampos(): void {
@@ -117,5 +114,9 @@ export class ProveedoresAgregarComponent {
         condicionIva: '',
       },
     };
+  }
+
+  public cargarRubros() {
+    this.rubros = [...rubrosProveedores];
   }
 }

@@ -12,6 +12,35 @@
       
     </div>
     <div class="m-3 border">
+      <div class="d-flex mb-3">
+        <div class="col">
+          <input
+            type="text"
+            name="buscarRazonSocial"
+            [(ngModel)]="buscarRazonSocial"
+            placeholder="Filtrar por razón social"
+            class="form-control"
+          />
+        </div>
+        <div class="col">
+          <input
+            type="text"
+            name="buscarCodigo"
+            [(ngModel)]="buscarCodigo"
+            placeholder="Filtrar por código"
+            class="form-control"
+          />
+        </div>
+        <div class="col">
+          <button
+            class="btn btn-danger"
+            (click)="borrarFiltros()"
+            ngbTooltip="Limpiar Filtros"
+          >
+            <i class="bi bi-eraser"></i>
+          </button>
+        </div>
+      </div>
       <table class="table">
         <thead>
           <tr>
@@ -26,19 +55,28 @@
         </thead>
 
         <tbody id="proveedoresTableBody">
-          <tr *ngFor="let p of proveedores">
-            <td>{{ p.logo }}</td>
+          <tr *ngFor="let p of proveedores | buscar: buscarRazonSocial:'razon_social' | buscar: buscarCodigo:'codProveedor'">
+            <td>
+              <img src="{{ p.logo }}" alt="Logo" style="width: 50px; height: 50px;">
+              </td>
             <td>{{ p.codProveedor }}</td>
             <td>{{ p.razon_social}}</td>
-            <td>{{ p.direccion.provincia.nombreProvincia}},{{ p.direccion.provincia.country.nombrePais}}</td>
+            <td>{{ p.direccion.provincia.nombreProvincia}}, {{ p.direccion.provincia.country.nombrePais}}</td>
             <td>{{ p.contactoInfo.apellido}}, {{ p.contactoInfo.nombre}}</td>
-            <td>{{ p.contactoInfo.apellido}}, {{ p.contactoInfo.nombre}}</td>
+            <td>             
+                  <i class="bi bi-telephone me-2" [ngbTooltip]="p.contactoInfo.telCelular"></i>
+                  <i class="bi bi-globe me-2" [ngbTooltip]="p.paginaWeb"></i>
+                  <i class="bi bi-envelope" [ngbTooltip]="p.email"></i>
+            </td>
             <td>
-              <button type="button" class="btn btn-warning" (click)="editProveedor(p.id)">
-                
+              <button type="button" class="btn btn-secondary btn-sm" routerLink= "/proveedores/{{p.id_proveedor}}" >
+                <i class="bi bi-eye"></i>
               </button>
-              <button type="button" class="btn btn-danger" (click)="deleteProveedor(p.id)">
-               
+              <button type="button" class="btn btn-warning ms-1 btn-sm" (click)="editProveedor(p.id)">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+              <button type="button" class="btn btn-danger ms-1  btn-sm" (click)="deleteProveedor(p.id)">
+                <i class="bi bi-trash-fill"></i>
               </button>
             </td>
             
@@ -55,7 +93,6 @@
     </div>
   </section>
 </main>
-
 
 <app-footer></app-footer>
 <router-outlet></router-outlet>

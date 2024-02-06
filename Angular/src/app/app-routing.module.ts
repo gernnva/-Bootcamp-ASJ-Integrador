@@ -7,6 +7,7 @@ import { ProveedoresComponent } from './components/Entidades/proveedores/proveed
 import { ProveedoresAgregarComponent } from './components/Entidades/proveedores-agregar/proveedores-agregar.component';
 import { OrdenesComponent } from './components/Entidades/ordenes/ordenes.component';
 import { OrdenesListarComponent } from './components/Entidades/ordenes-listar/ordenes-listar.component';
+import { ProveedoresDetalleComponent } from './components/Entidades/proveedores-detalle/proveedores-detalle.component';
 
 
 const routes: Routes = [
@@ -27,7 +28,8 @@ const routes: Routes = [
 
   { path: 'proveedores', component: ProveedoresComponent },
   { path: 'proveedores/agregar', component: ProveedoresAgregarComponent },
-  { path: 'proveedores/editar/:id', component: ProveedoresAgregarComponent },
+  { path: 'proveedores/editar/:id', component: ProveedoresAgregarComponent }, // ac me tengo que fijar para ver un proveedor
+  { path: 'proveedores/:id', component: ProveedoresDetalleComponent },
 
   { path: 'ordenCompra', component: OrdenesComponent },
   { path: 'ordenCompra/lista', component: OrdenesListarComponent },

@@ -1,25 +1,35 @@
 export interface Proveedor {
-    id: number;
-    sku: string;
-    razonSocial: string;
-    rubro: string;
-    sitioWeb?: string;
-    direccion: {
-      calle: string;
-      cp: string;
-      localidad: string;
-      provincia: string;
-      pais: string;
+  id_proveedor: number;
+  logo: string;
+  codPoveedor: string;
+  email: string;
+  razonSocial: string;
+
+  rubro: {
+    id_rubro: number;
+  };
+
+  paginaWeb: string;
+  direccion: {
+    calle: string;
+    numCalle: number;
+    ciudad: string;
+    codPostal: string;
+    provincia: {
+      id_provincia: number;
     };
-    contacto: {
-      nombre: string;
-      apellido: string;
-      telefono: string;
-      email: string;
-      rol: string;
-    };
-    datosFiscales: {
-      cuit: string;
-      condicionIva: string;
-    };
+  };
+  cuit: string;
+  cond_iva: {
+    id_condicionIva: number
   }
+  contactoInfo: {
+    nombre: string;
+    apellido: string;
+    telFijo: string;
+    telCelular: string;
+    email: string;
+    rol: string;
+  };
+  
+}

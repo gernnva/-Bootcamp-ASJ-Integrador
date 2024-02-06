@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Proveedor } from 'src/app/models/Proveedor';
+import { Router } from '@angular/router';
 import { ProveedoresService } from 'src/app/service/proveedores.service';
 
 @Component({
@@ -9,36 +10,28 @@ import { ProveedoresService } from 'src/app/service/proveedores.service';
 })
 export class ProveedoresComponent {
   proveedores: any[] = [];
+  buscarRazonSocial = '';
+  buscarCodigo = '';
+  proveedor: any;
 
-  constructor(public servicioProveedor: ProveedoresService) {}
+  constructor(public servicioProveedor: ProveedoresService ) {}
 
   ngOnInit(): void {
-    this.servicioProveedor.obtenerProveedores().subscribe(data => {
+    this.servicioProveedor.obtenerProveedores().subscribe((data) => {
       this.proveedores = data;
-      console.log(this.proveedores)
     });
   }
 
-  public deleteProveedor(id: number) {
-    const confirmDelete = window.confirm(
-      '¿Estás seguro de que quieres eliminar este proveedor?'
-    );
-
-    if (confirmDelete) {
-      // Si el usuario confirma, proceder con la eliminación
-      this.servicioProveedor.deleteProveedor(id);
-
-      // Actualizar la lista de proveedores después de la eliminación
-      this.servicioProveedor.obtenerProveedores().subscribe(data => {
-        this.proveedores = data;
-      });
-    }
+  borrarFiltros() {
+    this.buscarRazonSocial = '';
+    this.buscarCodigo = '';
   }
-  public editProveedor(id: number): void {
-    this.servicioProveedor.getProveedorById(id).subscribe((proveedor) => {
-      if (proveedor) {
-        this.servicioProveedor.editProveedor(proveedor); // Enviar el producto para editar
-      }
-    });
+
+  deleteProveedor(id: number){
+
+  }
+
+  editProveedor(id: number){
+    
   }
 }

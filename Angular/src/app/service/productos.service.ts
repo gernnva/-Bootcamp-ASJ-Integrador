@@ -8,7 +8,7 @@ import { Observable, of } from 'rxjs';
 })
 export class ProductosService {
   productos: Producto[] = [];
-  productoEditando: Producto | undefined;
+  productoEditando: any | undefined;
 
   constructor(private router: Router) { }
 

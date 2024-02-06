@@ -5,7 +5,7 @@
     <div class="container mt-5">
       <div class="d-flex justify-content-between">
         <h2 class="">
-          {{ banderaNuevo ? "Agregando Proveedor" : "Editando Proveedor" }}
+          Creando Proveedores
         </h2>
         <a routerLink="/proveedores" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">Volver</a>
       </div>
@@ -15,7 +15,7 @@
         <div class="d-flex">
           <div class="form-group col-2 pe-2">
             <label for="id">Código:</label>
-            <input type="text" class="form-control" id="id" name="id" [(ngModel)]="nuevoProveedor.sku" />
+            <input type="text" class="form-control" id="id" name="id" [(ngModel)]="nuevoProveedor.codProveedor" />
           </div>
 
           <div class="form-group col-6 pe-2">
@@ -26,15 +26,39 @@
 
           <div class="form-group col-4">
             <label for="rubro">Rubro:</label>
-            <input type="text" class="form-control" id="rubro" name="rubro" required
-              [(ngModel)]="nuevoProveedor.rubro" />
+
+            <select class="form-select" id="rubro" name="rubro" [(ngModel)]="nuevoProveedor.rubro">
+              <option value="">Selecciona un Rubro</option>
+              <option *ngFor="let rubro of rubros" [ngValue]="rubro">
+                {{ rubro }}
+              </option>
+            </select>
           </div>
+
+
+
         </div>
 
-        <div class="form-group">
-          <label for="sitioWeb">Sitio Web:</label>
-          <input type="text" class="form-control" id="sitioWeb" name="sitioWeb" [(ngModel)]="nuevoProveedor.sitioWeb" />
+        <div class="d-flex">
+
+          <div class="col-4 pe-2">
+            <label for="web">Web</label>
+            <input type="text" class="form-control" id="web" name="web"
+              [(ngModel)]="nuevoProveedor.sitioWeb" />
+          </div>
+          <div class="col-4 pe-2">
+            <label for="emailEmpresa">Email empresa</label>
+            <input type="text" class="form-control" id="emailEmpresa" name="emailEmpresa"
+              [(ngModel)]="nuevoProveedor.emailEmpresa" />
+          </div>
+          <div class="col-4">
+            <label for="logo">Logo</label>
+            <input type="text" class="form-control" id="logo" name="logo"
+              [(ngModel)]="nuevoProveedor.sitioWeb" />
+          </div>
+
         </div>
+
       </div>
       <!-- Dirección y Datos de Contacto-->
       <div class="d-flex">
@@ -43,45 +67,46 @@
         <div class="flex-fill">
           <h3 class="mt-4">Dirección</h3>
           <div class="border p-2 me-2">
-            <div class="form-group">
-              <label for="calle">Calle y Número:</label>
-              <input type="text" class="form-control" id="calle" name="calle"
-                [(ngModel)]="nuevoProveedor.direccion.calle" />
+            <div class="form-group d-flex">
+
+              <div class="col-8 me-2">
+                <label for="calle">Calle</label>
+                <input type="text" class="form-control" id="calle" name="calle"
+                  [(ngModel)]="nuevoProveedor.direccion.calle" />
+              </div>
+              <div class="">
+                <label for="calle">Nro</label>
+                <input type="text" class="form-control" id="nro" name="nro"
+                  [(ngModel)]="nuevoProveedor.direccion.num" />
+              </div>
+
             </div>
-            
+
             <div class="form-group">
-              <label for="country">País:</label>
-              <!-- Si está en modo de edición, muestra un input deshabilitado -->
-              <ng-container *ngIf="!banderaNuevo; else selectCountry">
-                <input type="text" class="form-control" id="country" name="country" [(ngModel)]="nuevoProveedor.direccion.pais" readonly>
-              </ng-container>
-              <!-- Si no está en modo de edición, muestra el select normal -->
-              <ng-template #selectCountry>
-                <select class="form-select" id="country" name="country" [(ngModel)]="selectedCountry"
-                  (change)="onCountryChange()">
-                  <option value="">Selecciona un país</option>
-                  <option *ngFor="let country of countries" [ngValue]="country">
-                    {{ country.countryName }}
-                  </option>
-                </select>
-              </ng-template>
+              <label for="pais">País:</label>
+
+              <select class="form-select" id="pais" name="pais" [(ngModel)]="paisElegido" (change)=traerProvincias()>
+                <option value="">Selecciona un país</option>
+                <option *ngFor="let pais of paises" [ngValue]="pais">
+                  {{ pais.nombrePais }}
+                </option>
+              </select>
+
             </div>
-            
+
             <div class="form-group">
               <label for="province">Provincia:</label>
-              <!-- Si está en modo de edición, muestra un input deshabilitado -->
-              <ng-container *ngIf="!banderaNuevo; else selectProvince">
-                <input type="text" class="form-control" id="province" name="province" [(ngModel)]="nuevoProveedor.direccion.provincia" readonly>
-              </ng-container>
+
               <!-- Si no está en modo de edición, muestra el select normal -->
-              <ng-template #selectProvince>
-                <select class="form-select" id="province" name="province" [(ngModel)]="nuevoProveedor.direccion.provincia">
-                  <option value="">Selecciona una provincia</option>
-                  <option *ngFor="let province of provinces" [ngValue]="province.name">
-                    {{ province.name }}
-                  </option>
-                </select>
-              </ng-template>
+
+              <select class="form-select" id="province" name="province"
+                [(ngModel)]="nuevoProveedor.direccion.provincia">
+                <option value="">Selecciona una provincia</option>
+                <option *ngFor="let prov of provincias" [ngValue]="provincias">
+                  {{ prov.nombreProvincia }}
+                </option>
+              </select>
+
             </div>
 
             <div class="form-group">
@@ -149,8 +174,8 @@
             <select class="form-select" id="condicionIva" name="condicionIva"
               [(ngModel)]="nuevoProveedor.datosFiscales.condicionIva">
               <option value="">Selecciona una categoria</option>
-              <option *ngFor="let c of contribuyentesCateg" [value]="c">
-                {{ c }}
+              <option *ngFor="let condicion of condicionesIva" [value]="condicion">
+                {{ condicion.condicion }}
               </option>
             </select>
           </div>
@@ -161,7 +186,7 @@
           Borrar Campos
         </button>
         <button class="btn btn-success p-3 my-3 me-3">
-          {{ banderaNuevo ? "Agregar Proveedor" : "Editar Proveedor" }}
+          Agregar Proveedor
         </button>
       </div>
     </div>
