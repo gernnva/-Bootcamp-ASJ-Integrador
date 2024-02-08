@@ -26,6 +26,11 @@ export class OrdenesService {
       return this.http.post(this.apiUrlOrden, orden);
     }
 
+    /** CARGAR TODAS LAS ORDENES */
+    public obtenerOrdenes(): Observable<any> {
+      return this.http.get<any[]>(this.apiUrlOrden)
+    }
+
 
 
 

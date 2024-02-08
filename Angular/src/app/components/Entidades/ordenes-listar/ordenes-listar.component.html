@@ -22,10 +22,10 @@
         </thead>
         <tbody>
           <tr *ngFor="let orden of ordenesGuardadas">
-            <td>{{ orden.id }}</td>
+            <td>{{ orden.id_Orden }}</td>
             <td>{{ orden.fechaEmision | date: 'dd/MM/yyyy' }}</td>
             <td>{{ orden.fechaEntrega | date: 'dd/MM/yyyy' }}</td>
-            <td>{{ orden.precio | currency: 'ARS ' }}</td>
+            <td>{{ orden.total | currency: 'ARS ' }}</td>
             <td>
               <button type="button" class="btn btn-info" (click)="verDetalles(orden)">Ver Detalles</button>
             </td>

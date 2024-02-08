@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Orden } from 'src/app/models/Orden';
+import { OrdenesService } from 'src/app/service/ordenes.service';
 
 @Component({
   selector: 'app-ordenes-listar',
@@ -7,18 +8,22 @@ import { Orden } from 'src/app/models/Orden';
   styleUrls: ['./ordenes-listar.component.css']
 })
 export class OrdenesListarComponent implements OnInit {
-  ordenesGuardadas: Orden[] = [];
+  ordenesGuardadas: any[] = [];
   ordenSeleccionada: Orden | undefined;
   mostrarDetalles: boolean = false;
 
+  constructor(public ordenesService: OrdenesService ) {}
+
   ngOnInit(): void {
-    this.cargarOrdenesGuardadas();
-    this
+    this.mostrarOrdenes();
+    
   }
 
-  cargarOrdenesGuardadas() {
-    const ordenesGuardadasStr = localStorage.getItem('ordenes') || '[]';
-    this.ordenesGuardadas = JSON.parse(ordenesGuardadasStr);
+  mostrarOrdenes() {
+    this.ordenesService.obtenerOrdenes().subscribe((data) => {
+      this.ordenesGuardadas = data;
+    })
+    
   }
 
   verDetalles(orden: Orden) {
