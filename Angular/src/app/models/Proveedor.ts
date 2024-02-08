@@ -2,7 +2,7 @@ export interface Proveedor {
   id_proveedor: number;
   logo: string;
   codPoveedor: string;
-  email: string;
+  emailEmpresa: string;
   razonSocial: string;
 
   rubro: {

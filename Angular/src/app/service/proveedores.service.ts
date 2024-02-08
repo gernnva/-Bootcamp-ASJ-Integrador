@@ -37,5 +37,20 @@ export class ProveedoresService {
   public obtenerCondicionesIva(): Observable<any[]> {
     return this.http.get<any[]>('http://localhost:8080/condicionIva');
   }
+  /** GUARDAR UN NUEVO PROVEEDOR */
+  public guardarProveedor(proveedor: any): Observable<any>{
+    return this.http.post(this.apiUrl, proveedor);
+  }
 
+  /** ACTUALIZAR UN PROVEEDOR */
+  public actualizarProveedor(id: number, proveedor: any): Observable<any>{
+    return this.http.put(`${this.apiUrl}/${id}`, proveedor);
+  }
+  /** SETEAR ELIMINADO */
+  public SetearEliminado(id: number): Observable<any>{
+    return this.http.patch(`${this.apiUrl}/${id}`, null);
+
+  }
+
+  
 }

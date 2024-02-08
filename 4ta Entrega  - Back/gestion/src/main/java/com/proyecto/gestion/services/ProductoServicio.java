@@ -56,6 +56,7 @@ public class ProductoServicio {
         nuevoProducto.setSku(producto.getSku());
         nuevoProducto.setNombre(producto.getNombre());
         nuevoProducto.setDescripcion(producto.getDescripcion());
+        nuevoProducto.setImagen(producto.getImagen());      
         nuevoProducto.setPrecio(producto.getPrecio());
         nuevoProducto.setReg_creado(LocalDateTime.now());
         nuevoProducto.setReg_modificado(LocalDateTime.now());
@@ -74,9 +75,12 @@ public class ProductoServicio {
         // Actualizar los campos del producto existente con los valores proporcionados
         
         productoExistente.setNombre(producto.getNombre());
+        productoExistente.setSku(producto.getSku());
+        productoExistente.setImagen(producto.getImagen());
         productoExistente.setDescripcion(producto.getDescripcion());
         productoExistente.setPrecio(producto.getPrecio());
         productoExistente.setReg_modificado(LocalDateTime.now());
+        
         // Cambiar la Proveedor
         if (producto.getProveedor() != null && producto.getProveedor().getId_proveedor() != null) {
             Proveedor nuevoProveedor = proveedorRepositorio.findById(producto.getProveedor().getId_proveedor())

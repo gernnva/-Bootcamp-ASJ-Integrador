@@ -5,190 +5,197 @@
     <div class="container mt-5">
       <div class="d-flex justify-content-between">
         <h2 class="">
-          Creando Proveedores
+          {{ nuevoProveedor.id_proveedor ? 'Modificando Proveedor' : 'Agregando un nuevo Proveedor' }}
         </h2>
         <a routerLink="/proveedores" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">Volver</a>
       </div>
 
       <!-- Datos Generales -->
-      <div class="mt-4">
-        <div class="d-flex">
-          <div class="form-group col-2 pe-2">
-            <label for="id">Código:</label>
-            <input type="text" class="form-control" id="id" name="id" [(ngModel)]="nuevoProveedor.codProveedor" />
-          </div>
-
-          <div class="form-group col-6 pe-2">
-            <label for="razonSocial">Razón Social:</label>
-            <input type="text" class="form-control" id="razonSocial" name="razonSocial" required
-              [(ngModel)]="nuevoProveedor.razonSocial" />
-          </div>
-
-          <div class="form-group col-4">
-            <label for="rubro">Rubro:</label>
-
-            <select class="form-select" id="rubro" name="rubro" [(ngModel)]="nuevoProveedor.rubro">
-              <option value="">Selecciona un Rubro</option>
-              <option *ngFor="let rubro of rubros" [ngValue]="rubro">
-                {{ rubro }}
-              </option>
-            </select>
-          </div>
-
-
-
-        </div>
-
-        <div class="d-flex">
-
-          <div class="col-4 pe-2">
-            <label for="web">Web</label>
-            <input type="text" class="form-control" id="web" name="web"
-              [(ngModel)]="nuevoProveedor.sitioWeb" />
-          </div>
-          <div class="col-4 pe-2">
-            <label for="emailEmpresa">Email empresa</label>
-            <input type="text" class="form-control" id="emailEmpresa" name="emailEmpresa"
-              [(ngModel)]="nuevoProveedor.emailEmpresa" />
-          </div>
-          <div class="col-4">
-            <label for="logo">Logo</label>
-            <input type="text" class="form-control" id="logo" name="logo"
-              [(ngModel)]="nuevoProveedor.sitioWeb" />
-          </div>
-
-        </div>
-
-      </div>
-      <!-- Dirección y Datos de Contacto-->
-      <div class="d-flex">
-        <!--Saco el class: diryDatos-->
-        <!-- Dirección -->
-        <div class="flex-fill">
-          <h3 class="mt-4">Dirección</h3>
-          <div class="border p-2 me-2">
-            <div class="form-group d-flex">
-
-              <div class="col-8 me-2">
-                <label for="calle">Calle</label>
-                <input type="text" class="form-control" id="calle" name="calle"
-                  [(ngModel)]="nuevoProveedor.direccion.calle" />
-              </div>
-              <div class="">
-                <label for="calle">Nro</label>
-                <input type="text" class="form-control" id="nro" name="nro"
-                  [(ngModel)]="nuevoProveedor.direccion.num" />
-              </div>
-
+      <form #myForm="ngForm" (ngSubmit)="guardarProveedor()">
+        <div class="mt-4">
+          <div class="d-flex">
+            <div class="form-group col-2 pe-2">
+              <label for="codigo">Código:</label>
+              <input type="text" class="form-control" id="codigo" name="codigo" [(ngModel)]="nuevoProveedor.codProveedor" />
             </div>
-
-            <div class="form-group">
-              <label for="pais">País:</label>
-
-              <select class="form-select" id="pais" name="pais" [(ngModel)]="paisElegido" (change)=traerProvincias()>
-                <option value="">Selecciona un país</option>
-                <option *ngFor="let pais of paises" [ngValue]="pais">
-                  {{ pais.nombrePais }}
+  
+            <div class="form-group col-6 pe-2">
+              <label for="razonSocial">Razón Social:</label>
+              <input type="text" class="form-control" id="razonSocial" name="razonSocial" required
+                [(ngModel)]="nuevoProveedor.razon_social" />
+            </div>
+  
+            <div class="form-group col-4">
+              <label for="rubro">Rubro:</label>
+                <!-- Ver el tema del index del rubro para guardar-->
+              <select class="form-select" id="rubro" name="rubro" [(ngModel)]="nuevoProveedor.rubro.id_rubro">
+                <option value="">Selecciona un Rubro</option>
+                <option *ngFor="let rubro of rubros" value="{{rubro.id}}">
+                  {{ rubro.nombre }}
                 </option>
               </select>
-
             </div>
-
-            <div class="form-group">
-              <label for="province">Provincia:</label>
-
-              <!-- Si no está en modo de edición, muestra el select normal -->
-
-              <select class="form-select" id="province" name="province"
-                [(ngModel)]="nuevoProveedor.direccion.provincia">
-                <option value="">Selecciona una provincia</option>
-                <option *ngFor="let prov of provincias" [ngValue]="provincias">
-                  {{ prov.nombreProvincia }}
+  
+  
+  
+          </div>
+  
+          <div class="d-flex">
+  
+            <div class="col-4 pe-2">
+              <label for="web">Web</label>
+              <input type="text" class="form-control" id="web" name="web" [(ngModel)]="nuevoProveedor.paginaWeb" />
+            </div>
+            <div class="col-4 pe-2">
+              <label for="emailEmpresa">Email empresa</label>
+              <input type="text" class="form-control" id="emailEmpresa" name="emailEmpresa"
+                [(ngModel)]="nuevoProveedor.email" />
+            </div>
+            <div class="col-4">
+              <label for="logo">Logo</label>
+              <input type="text" class="form-control" id="logo" name="logo" [(ngModel)]="nuevoProveedor.logo" />
+            </div>
+  
+          </div>
+  
+        </div>
+        <!-- Dirección y Datos de Contacto-->
+        <div class="d-flex">
+          <!--Saco el class: diryDatos-->
+          <!-- Dirección -->
+          <div class="flex-fill">
+            <h3 class="mt-4">Dirección</h3>
+            <div class="border p-2 me-2">
+              <div class="form-group d-flex">
+  
+                <div class="col-8 me-2">
+                  <label for="calle">Calle</label>
+                  <input type="text" class="form-control" id="calle" name="calle"
+                    [(ngModel)]="nuevoProveedor.direccion.calle" />
+                </div>
+                <div class="">
+                  <label for="calle">Nro</label>
+                  <input type="text" class="form-control" id="nro" name="nro"
+                    [(ngModel)]="nuevoProveedor.direccion.numCalle" />
+                </div>
+  
+              </div>
+  
+              <div class="form-group">
+                <label for="pais">País:</label>
+                  <select class="form-select" id="pais" name="pais" 
+                  [(ngModel)]="paisElegido" (change)=traerProvincias()>
+                  <option value = -1 disabled> Seleccione un pais</option>
+                  <option *ngFor="let pais of paises" [ngValue]="pais.id_pais">
+                    {{ pais.nombrePais }}
+                  </option>
+                </select>
+  
+              </div>
+  
+              <div class="form-group">
+                <label for="provincia">Provincia:</label>  
+                <select class="form-select" id="provincia" name="provincia"
+                  [(ngModel)]="nuevoProveedor.direccion.provincia.id_provincia">
+                  <option value="">Selecciona una provincia</option>
+                  <option *ngFor="let prov of provincias" [ngValue]="prov.id_provincia">
+                    {{ prov.nombreProvincia }}
+                  </option>
+                </select>
+  
+              </div>
+  
+              <div class="form-group">
+                <label for="localidad">Ciudad:</label>
+                <input type="text" class="form-control" id="localidad" name="localidad"
+                  [(ngModel)]="nuevoProveedor.direccion.ciudad" />
+              </div>
+  
+              <div class="form-group">
+                <label for="cp">Código Postal:</label>
+                <input type="text" class="form-control" id="cp" name="cp" [(ngModel)]="nuevoProveedor.direccion.codPostal" />
+              </div>
+            </div>
+          </div>
+          <!-- Datos de Contacto -->
+          <div class="flex-fill">
+            <h3 class="mt-4">Datos de Contacto</h3>
+            <div class="border p-2">
+              <div class="form-group">
+                <label for="nombreContacto">Nombre:</label>
+                <input type="text" class="form-control" id="nombreContacto" name="nombreContacto" required
+                  [(ngModel)]="nuevoProveedor.contactoInfo.nombre" />
+              </div>
+  
+              <div class="form-group">
+                <label for="apellidoContacto">Apellido:</label>
+                <input type="text" class="form-control" id="apellidoContacto" name="apellidoContacto" required
+                  [(ngModel)]="nuevoProveedor.contactoInfo.apellido" />
+              </div>
+              <div class="form-group d-flex">
+                <div class="form-group col-6 pe-2">
+                  <label for="telFijo">Teléfono:</label>
+                  <input type="tel" class="form-control" id="telFijo" name="telFijo"
+                    [(ngModel)]="nuevoProveedor.contactoInfo.telFijo" />
+                </div>
+  
+                <div class="form-group col-6">
+                  <label for="celular">Celular:</label>
+                  <input type="tel" class="form-control" id="celular" name="celular"
+                    [(ngModel)]="nuevoProveedor.contactoInfo.telCelular" />
+                </div>
+              </div>
+              
+  
+              <div class="form-group">
+                <label for="emailContacto">Email:</label>
+                <input type="email" class="form-control" id="emailContacto" name="emailContacto" required
+                  [(ngModel)]="nuevoProveedor.contactoInfo.email" />
+              </div>
+  
+              <div class="form-group">
+                <label for="rolContacto">Rol:</label>
+                <input type="text" class="form-control" id="rolContacto" name="rolContacto"
+                  [(ngModel)]="nuevoProveedor.contactoInfo.rol" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Datos Fiscales -->
+  
+        <div class="">
+          <h3 class="mt-4">Datos Fiscales</h3>
+          <div class="border p-2 me-2 d-flex">
+            <div class="form-group me-2 flex-fill">
+              <label for="cuit">CUIT:</label>
+              <input type="text" class="form-control" id="cuit" name="cuit"
+                [(ngModel)]="nuevoProveedor.cuit" />
+            </div>
+  
+            <div class="form-group flex-fill">
+              <label for="condicionIva">Condición IVA:</label>
+              <!-- <input type="text" class="form-control" id="condicionIva" name="condicionIva" [(ngModel)]="nuevoProveedor.datosFiscales.condicionIva" /> -->
+              <select class="form-select" id="condicionIva" name="condicionIva"
+                [(ngModel)]="nuevoProveedor.condIva.id_condicionIva">
+                <option value="">Selecciona una categoria</option>
+                <option *ngFor="let condicion of condicionesIva" [value]="condicion.id_condicionIva">
+                  {{ condicion.condicion }}
                 </option>
               </select>
-
-            </div>
-
-            <div class="form-group">
-              <label for="localidad">Localidad:</label>
-              <input type="text" class="form-control" id="localidad" name="localidad"
-                [(ngModel)]="nuevoProveedor.direccion.localidad" />
-            </div>
-
-            <div class="form-group">
-              <label for="cp">Código Postal:</label>
-              <input type="text" class="form-control" id="cp" name="cp" [(ngModel)]="nuevoProveedor.direccion.cp" />
             </div>
           </div>
         </div>
-        <!-- Datos de Contacto -->
-        <div class="flex-fill">
-          <h3 class="mt-4">Datos de Contacto</h3>
-          <div class="border p-2">
-            <div class="form-group">
-              <label for="nombreContacto">Nombre:</label>
-              <input type="text" class="form-control" id="nombreContacto" name="nombreContacto" required
-                [(ngModel)]="nuevoProveedor.contacto.nombre" />
-            </div>
-
-            <div class="form-group">
-              <label for="apellidoContacto">Apellido:</label>
-              <input type="text" class="form-control" id="apellidoContacto" name="apellidoContacto" required
-                [(ngModel)]="nuevoProveedor.contacto.apellido" />
-            </div>
-
-            <div class="form-group">
-              <label for="telefonoContacto">Teléfono:</label>
-              <input type="tel" class="form-control" id="telefonoContacto" name="telefonoContacto"
-                [(ngModel)]="nuevoProveedor.contacto.telefono" />
-            </div>
-
-            <div class="form-group">
-              <label for="emailContacto">Email:</label>
-              <input type="email" class="form-control" id="emailContacto" name="emailContacto" required
-                [(ngModel)]="nuevoProveedor.contacto.email" />
-            </div>
-
-            <div class="form-group">
-              <label for="rolContacto">Rol:</label>
-              <input type="text" class="form-control" id="rolContacto" name="rolContacto"
-                [(ngModel)]="nuevoProveedor.contacto.rol" />
-            </div>
-          </div>
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-danger p-3 my-3 me-2" (click)="resetCampos()">
+            Borrar Campos
+          </button>
+          <button class="btn btn-success p-3 my-3 me-3" type="submit">
+            {{ nuevoProveedor.id_proveedor ? 'Guardar Cambios' : 'Agregar Proveedor' }}
+          </button>
         </div>
-      </div>
-      <!-- Datos Fiscales -->
+      </form>
 
-      <div class="">
-        <h3 class="mt-4">Datos Fiscales</h3>
-        <div class="border p-2 me-2 d-flex">
-          <div class="form-group me-2 flex-fill">
-            <label for="cuit">CUIT:</label>
-            <input type="text" class="form-control" id="cuit" name="cuit"
-              [(ngModel)]="nuevoProveedor.datosFiscales.cuit" />
-          </div>
-
-          <div class="form-group flex-fill">
-            <label for="condicionIva">Condición IVA:</label>
-            <!-- <input type="text" class="form-control" id="condicionIva" name="condicionIva" [(ngModel)]="nuevoProveedor.datosFiscales.condicionIva" /> -->
-            <select class="form-select" id="condicionIva" name="condicionIva"
-              [(ngModel)]="nuevoProveedor.datosFiscales.condicionIva">
-              <option value="">Selecciona una categoria</option>
-              <option *ngFor="let condicion of condicionesIva" [value]="condicion">
-                {{ condicion.condicion }}
-              </option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex justify-content-end">
-        <button class="btn btn-danger p-3 my-3 me-2" (click)="resetCampos()">
-          Borrar Campos
-        </button>
-        <button class="btn btn-success p-3 my-3 me-3">
-          Agregar Proveedor
-        </button>
-      </div>
+      
     </div>
   </section>
 </main>

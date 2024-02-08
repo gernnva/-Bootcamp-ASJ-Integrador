@@ -4,41 +4,90 @@
   <router-outlet></router-outlet>
   <section class="d-flex flex-column flex-grow-1 mt-3 ms-3">
     <div class="d-flex justify-content-between mx-3">
-      <h2>Productos</h2>
+      <h2>{{ mostrarEliminados ? 'Productos Inactivos' : 'Productos Activos'}}</h2>
       <div class="d-flex align-items-stretch">
         <a routerLink="/" class="btn btn-secondary me-3" tabindex="-1" role="button" aria-disabled="true">Volver</a>
         <a routerLink="/productos/agregar" class="btn btn-success" tabindex="-1" role="button"
           aria-disabled="true">Agregar Producto</a>
       </div>
     </div>
+    <div class="d-flex mt-3 px-3" >
+      <div class="col">
+        <input
+          type="text"
+          name="buscarNombreDescripcion"
+          [(ngModel)]="buscarNombreDescripcion"
+          placeholder="Buscar por Nombre y Descripcion"
+          class="form-control"
+        />
+      </div>
+      <div class="col">
+        <input
+          type="text"
+          name="buscarCategoria"
+         
+          placeholder="filtrar por categorias"
+          class="form-control"
+        />
+      </div>
+      <div class="col">
+        <button
+          class="btn btn-danger"
+         
+          ngbTooltip="Limpiar Filtros"
+        >
+          <i class="bi bi-eraser"></i>
+        </button>
+      </div>
+      <button class="btn btn-primary px-5"(click)="toggleMostrarEliminados()">
+        {{ mostrarEliminados ? 'Ver Activos' : 'Ver Inactivos'}}
+      </button>
+    </div>
     
-
+    
     <div class="m-3 border">
       <table class="table">
         <thead>
           <tr>
-            <th scope="col" (click)="ordenarPorId()" style="cursor: pointer;">Codigo</th>
-            <th scope="col">Proveedor</th>
+             <!-- <th scope="col" (click)="ordenarPorId()" style="cursor: pointer;">Codigo</th> -->
+            <th scope="col">Imagen</th>
+            <th scope="col">SKU</th>
+            <th scope="col" (click)="ordenarPorNombre()" style="cursor: pointer;">Producto</th> <!--NOMBRE-->
             <th scope="col">Categoria</th>
-            <th scope="col" (click)="ordenarPorNombre()" style="cursor: pointer;">Nombre Producto</th>
-            <th scope="col">Descripcion</th>
-            <th scope="col">Precio</th>
-            <th scope="col">Editar / Borrar</th>
+            <th scope="col" (click)="ordenarPorPrecio()" style="cursor: pointer;">Precio</th>
+            <th scope="col">Proveedor</th> <!-- RAZON SOCIAL -->
+            <th scope="col">Acciones</th>
+
+           <!-- <th scope="col" (click)="ordenarPorNombre()" style="cursor: pointer;">Nombre Producto</th> //  | buscar: buscarCategoria:'codProveedor' -->
+            
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let p of productos">
-            <td> {{ p.id }}</td>
-            <td> {{ p.proveedor }}</td>
-            <td> {{ p.categoria }}</td>
-            <td> {{ p.nombreProducto }}</td>
-            <td> {{ p.descripcion }}</td>
+          <ng-container *ngFor="let p of productos | buscarProducto: buscarNombreDescripcion:camposDeBusqueda">
+            <ng-container *ngIf="mostrarEliminados ? p.eliminado : !p.eliminado">
+          <tr >
+            <td> 
+              <img src="{{ p.imagen }}" alt="Logo" style="width: 70px; height: 70px;">
+            </td>
+            <td> {{ p.sku }}</td>
+            <td> {{ p.nombre }}</td>
+            <td> {{ p.categoria.nombrecategoria }}</td>
             <td> {{ p.precio | currency: 'ARS ' }}</td>
+            <td> {{ p.proveedor.razon_social }}</td>
             <td>
-              <button type="button" class="btn btn-warning" (click)="editProduct(p.id)">Edit</button>
-              <button type="button" class="btn btn-danger" (click)="deleteProduct(p.id)">Delete</button>
+              <button type="button" class="btn btn-secondary btn-sm" [routerLink]="['/productos', p.id_producto]">
+                <i class="bi bi-eye"></i>
+              </button>
+              <button type="button" class="btn btn-warning ms-1 btn-sm" [routerLink]="['/productos/editar', p.id_producto]">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+              <button type="button" class="btn btn-danger ms-1 btn-sm" (click)="estadoEliminado(p.id_producto)">
+                <i class="bi bi-trash-fill"></i>
+              </button>
             </td>
           </tr>
+        </ng-container>
+      </ng-container>
         </tbody>
       </table>
       <div *ngIf="productos.length === 0" class="alert alert-warning mx-2" role="alert">

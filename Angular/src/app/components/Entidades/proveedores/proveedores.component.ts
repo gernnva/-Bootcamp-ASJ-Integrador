@@ -12,26 +12,37 @@ export class ProveedoresComponent {
   proveedores: any[] = [];
   buscarRazonSocial = '';
   buscarCodigo = '';
-  proveedor: any;
+ // proveedor: any;
+
+  mostrarEliminados: boolean = false; // 
 
   constructor(public servicioProveedor: ProveedoresService ) {}
 
   ngOnInit(): void {
+    this.mostrarProveedores()
+  }
+  
+  toggleMostrarEliminados() {
+    this.mostrarEliminados = !this.mostrarEliminados;
+  }
+
+  mostrarProveedores(){
     this.servicioProveedor.obtenerProveedores().subscribe((data) => {
       this.proveedores = data;
     });
   }
+
 
   borrarFiltros() {
     this.buscarRazonSocial = '';
     this.buscarCodigo = '';
   }
 
-  deleteProveedor(id: number){
-
+  estadoEliminado(id: number){
+    this.servicioProveedor.SetearEliminado(id).subscribe((data) => {
+      console.log(id)
+    })
   }
 
-  editProveedor(id: number){
-    
-  }
+
 }

@@ -25,6 +25,7 @@ public class Producto {
 	
 	private String Descripcion;//
 	private Double precio;//
+	private String imagen;
 	
 	private boolean eliminado;
 	private LocalDateTime reg_creado;
@@ -34,7 +35,7 @@ public class Producto {
 	}
 
 	public Producto(Integer id_producto, Proveedor proveedor, Categoria categoria, String sku, String nombre,
-			String descripcion, Double precio, boolean eliminado, LocalDateTime reg_creado,
+			String descripcion, Double precio, String imagen, boolean eliminado, LocalDateTime reg_creado,
 			LocalDateTime reg_modificado) {
 		this.id_producto = id_producto;
 		this.proveedor = proveedor;
@@ -43,6 +44,7 @@ public class Producto {
 		this.nombre = nombre;
 		Descripcion = descripcion;
 		this.precio = precio;
+		this.imagen = imagen;
 		this.eliminado = eliminado;
 		this.reg_creado = reg_creado;
 		this.reg_modificado = reg_modificado;
@@ -104,6 +106,14 @@ public class Producto {
 		this.precio = precio;
 	}
 
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
+	}
+
 	public boolean isEliminado() {
 		return eliminado;
 	}
@@ -128,5 +138,5 @@ public class Producto {
 		this.reg_modificado = reg_modificado;
 	}
 
-	
+		
 }

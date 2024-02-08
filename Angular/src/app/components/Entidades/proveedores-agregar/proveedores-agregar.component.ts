@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ProveedoresService } from 'src/app/service/proveedores.service';
 import { Proveedor } from 'src/app/models/Proveedor';
 import { Observable } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { tiposContribuyentes } from 'src/app/data/condicionIva';
 import { CategoriasService } from 'src/app/service/categorias.service';
 import { rubrosProveedores } from 'src/app/data/rubrosProveedores';
@@ -14,104 +14,119 @@ import { rubrosProveedores } from 'src/app/data/rubrosProveedores';
 })
 export class ProveedoresAgregarComponent {
   nuevoProveedor: any = {
-    id_proveedor: 0,
-    logo: '',
-    codPoveedor: '',
-    email: '',
-    razonSocial: '',
+    
+    logo: '', //
+    codProveedor: '', //
+    email: '', //
+    razon_social: '', //
     rubro: {
-      id_rubro: 0,
+      id_rubro: 0, //
     },
-    paginaWeb: '',
+    paginaWeb: '', //
     direccion: {
-      calle: '',
-      numCalle: 0,
-      ciudad: '',
-      codPostal: '',
+      calle: '', //
+      numCalle: 0, //
+      ciudad: '', //
+      codPostal: '', //
       provincia: {
-        id_provincia: 0,
+        id_provincia: 0, //
       },
     },
     cuit: '',
-    cond_iva: {
+    condIva: {
       id_condicionIva: 0,
     },
     contactoInfo: {
-      nombre: '',
-      apellido: '',
-      telFijo: '',
-      telCelular: '',
-      email: '',
-      rol: '',
+      nombre: '', //
+      apellido: '', //
+      telFijo: '', //
+      telCelular: '', //
+      email: '', //
+      rol: '', //
     },
   };
 
   paises: any[] = [];
   provincias: any[] = [];
-  paisElegido: any;
-  rubros: string[] = [];
+  paisElegido: number = -1;
+  rubros: any[] = [];
   condicionesIva: any[] = [];
 
-  contribuyentesCateg: string[] = []; // buscar en la api los tipos
+  idProveedor = this.route.snapshot.params['id'];
+
+  
 
   constructor(
     private servicioProveedor: ProveedoresService,
     private route: ActivatedRoute,
+    private router: Router,
     private servicioCategoria: CategoriasService
   ) {}
 
   ngOnInit(): void {
     this.traerPaises();
     this.cargarRubros();
-    this.traerCondicionesIva()
+    this.traerCondicionesIva();
+    
+    if (this.idProveedor != undefined) {
+      this.cargarDatosProveedor(this.idProveedor);
+      
+    }
+    
   }
 
   public traerPaises() {
     this.servicioProveedor.obtenerPaises().subscribe((data) => {
       this.paises = data;
-      console.log(this.paises);
     });
   }
 
   public traerProvincias() {
     this.servicioProveedor
-      .obtenerProvincias(this.paisElegido.id_pais)
+      .obtenerProvincias(this.paisElegido)
       .subscribe((data) => {
         this.provincias = data;
       });
   }
 
-  public traerCondicionesIva(){
-    this.servicioProveedor.obtenerCondicionesIva().subscribe((data => {
+  public traerCondicionesIva() {
+    this.servicioProveedor.obtenerCondicionesIva().subscribe((data) => {
       this.condicionesIva = data;
-    }))
-
+    });
   }
   // BORRO TODO MENOS EL ID
-  public resetCampos(): void {
+  public resetCampos(): void {// CORREGIR ESTO
     this.nuevoProveedor = {
-      id: 0,
-      sku: '',
-      razonSocial: '',
-      rubro: '',
-      sitioWeb: '',
+      id_proveedor: 3,
+      logo: '', //
+      codProveedor: '', //
+      emailEmpresa: '', //
+      razonSocial: '', //
+      rubro: {
+        id_rubro: 0, //
+      },
+      paginaWeb: '', //
       direccion: {
-        calle: '',
-        cp: '',
-        localidad: '',
-        provincia: this.nuevoProveedor.direccion.provincia,
-        pais: this.nuevoProveedor.direccion.pais,
+        calle: '', //
+        numCalle: 0, //
+        ciudad: '', //
+        codPostal: '', //
+        pais: 'Seleccione un Pais',
+        provincia: {
+          id_provincia: 0, //
+        },
       },
-      contacto: {
-        nombre: '',
-        apellido: '',
-        telefono: '',
-        email: '',
-        rol: '',
+      cuit: '',
+      cond_iva: {
+        id_condicionIva: 0,
       },
-      datosFiscales: {
-        cuit: '',
-        condicionIva: '',
+      contactoInfo: {
+        nombre: '', //
+        apellido: '', //
+        telFijo: '', //
+        telCelular: '', //
+        email: '', //
+        rol: '', //
       },
     };
   }
@@ -119,4 +134,37 @@ export class ProveedoresAgregarComponent {
   public cargarRubros() {
     this.rubros = [...rubrosProveedores];
   }
+  // GUARDAR UN NUEVO PROVEEDOR O ACTUALIZAR UNO
+  public guardarProveedor() {
+    if (this.idProveedor != undefined){
+      this.servicioProveedor.actualizarProveedor(this.idProveedor, this.nuevoProveedor).subscribe(dato => {
+        console.log(dato)})
+    } else {
+      this.servicioProveedor.guardarProveedor(this.nuevoProveedor).subscribe(dato => {
+        console.log(dato)});
+    }
+    this.router.navigate(['/proveedores']);
+    
+  }
+  // CARGAR LOS DATOS DE UN PROVEEDOR EN EL 'AGREGAR COMPONENT' 
+  private cargarDatosProveedor(idProveedor: number): void {
+     this.servicioProveedor.getProveedorById(idProveedor).subscribe(
+      proveedor => {
+        this.nuevoProveedor = proveedor;
+        this.nuevoProveedor.direccion.provincia.id_provincia = proveedor.direccion.provincia.id_provincia;
+        this.paisElegido = proveedor.direccion.provincia.country.id_pais;
+        this.traerProvincias();
+        
+      },
+      error => {
+        console.error('Error al cargar datos del proveedor:', error);
+      }
+    );
+  }
+
+
+
+
+
+
 }

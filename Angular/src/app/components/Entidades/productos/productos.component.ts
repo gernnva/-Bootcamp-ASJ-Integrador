@@ -9,60 +9,59 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./productos.component.css'],
 })
 export class ProductosComponent implements OnInit {
-  productos: Producto[] = [];
+  productos: any[] = [];
   ordenAscendente: boolean = true;
+  mostrarEliminados: boolean = false;
+  buscarNombreDescripcion = '';
+  camposDeBusqueda: string[] = ['nombre', 'descripcion'];
+  buscarCategoria = '';
 
-  constructor(public serv: ProductosService) {}
+  constructor(public servicioProducto: ProductosService) {}
 
   ngOnInit(): void {
-    this.actualizarListaProductos();
-    this.serv.getDatos().subscribe((data: Producto[]) => {
+    this.mostrarProductos()
+  }
+
+  mostrarProductos(){
+    this.servicioProducto.obtenerProductos().subscribe((data) => {
       this.productos = data;
     });
   }
-  public deleteProduct(id: number) {
-    // Preguntar al usuario si está seguro de eliminar el producto
-    const confirmDelete = window.confirm(
-      '¿Estás seguro de que quieres eliminar este producto?'
-    );
-
-    if (confirmDelete) {
-      // Si el usuario confirma, proceder con la eliminación
-      this.serv.deleteProducto(id);
-
-      // Actualizar la lista de productos después de la eliminación
-      this.serv.getDatos().subscribe((data: Producto[]) => {
-        this.productos = data;
-      });
-    }
-  }
-  public editProduct(id: number): void {
-    this.serv.getProductoById(id).subscribe((producto) => {
-      if (producto) {
-        this.serv.editProducto(producto); // Enviar el producto para editar
-      }
-    });
-  }
-
+  
   public ordenarPorNombre(): void {
-    this.productos.sort((a, b) =>
-      this.ordenAscendente
-        ? a.nombreProducto.localeCompare(b.nombreProducto)
-        : b.nombreProducto.localeCompare(a.nombreProducto)
-    );
+    const productosOrdenados = [...this.productos].sort((a, b) => {
+      return this.ordenAscendente
+        ? a.nombre.localeCompare(b.nombre)
+        : b.nombre.localeCompare(a.nombre);
+    });
+    this.productos = productosOrdenados;
     this.ordenAscendente = !this.ordenAscendente;
   }
 
-  private actualizarListaProductos() {
-    this.serv.getDatos().subscribe((data: Producto[]) => {
-      // Ordenar los productos alfabéticamente por el nombre del producto
-      this.productos = data.sort((a, b) =>
-        a.nombreProducto.localeCompare(b.nombreProducto)
-      );
+  public ordenarPorPrecio(): void {
+    const productosOrdenados = [...this.productos].sort((a, b) => {
+      return this.ordenAscendente
+        ? a.precio - b.precio
+        : b.precio - a.precio
     });
+    this.productos = productosOrdenados;
+    this.ordenAscendente = !this.ordenAscendente;
+  }
+
+  estadoEliminado(id: number){
+    this.servicioProducto.SetearEliminado(id).subscribe((data) => {
+      console.log(id)
+    })
   }
 
   ordenarPorId(): void {
     this.productos.sort((a, b) => a.id - b.id);
   }
+
+  toggleMostrarEliminados() {
+    this.mostrarEliminados = !this.mostrarEliminados;
+  }
+
+
+
 }

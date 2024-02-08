@@ -39,13 +39,7 @@ export class OrdenesComponent implements OnInit {
   constructor(private servProductos: ProductosService, private router: Router) {}
 
   ngOnInit(): void {
-    this.servProductos.getDatos().subscribe((data: Producto[]) => {
-      this.productos = data;
-      const proveedoresUnicos = [
-        ...new Set(this.productos.map((proveedor) => proveedor.proveedor)),
-      ];
-      this.proveedores = proveedoresUnicos;
-    });
+    
 
   }
 

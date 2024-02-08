@@ -14,51 +14,84 @@ import { categoriaProductos } from 'src/app/data/categoriaProductos';
 })
 export class ProductosAgregarComponent {
   static nextId: number = 1;
-  nuevoProducto: Producto = {
-    id: this.productoServicio.obtenerUltimoId() + 1,
+  nuevoProducto: any = {
+    proveedor: {
+      id_proveedor: -1,
+    },
+    categoria: {
+      id_categoria: -1,
+    },
     sku: '',
-    proveedor: '',
-    categoria: '',
-    nombreProducto: '',
+    nombre: '',
     descripcion: '',
-    precio: 0,
+    precio: null,
+    imagen: '',
   };
-   banderaNuevo!: boolean;
-   proveedores: Proveedor [] = [];
-   categorias: string [] = [];
+
+  
+  // no usando viejo modelo
+  banderaNuevo!: boolean;
+  //usando
+  idProducto = this.route.snapshot.params['id'];
+  proveedores: any[] = [];
+  categorias: any[] = [];
 
   constructor(
     private productoServicio: ProductosService,
     private route: ActivatedRoute,
-    public servProve: ProveedoresService,
+    private servicioProveedor: ProveedoresService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.servProve.obtenerProveedores().subscribe((data: Proveedor[]) => {
+    this.traerCategorias();
+    this.traerProveedores();
+
+    if (this.idProducto != undefined) {
+      this.cargarDatosProducto(this.idProducto);
+      
+    }
+
+  }
+
+  public traerCategorias() {
+    this.productoServicio.obtenerCategorias().subscribe((data) => {
+      this.categorias = data;
+    });
+  }
+
+  public traerProveedores(){
+    this.servicioProveedor.obtenerProveedores().subscribe((data) => {
       this.proveedores = data;
     });
-    this.categoriaProductos();
-    // Obtener el ID del producto de la ruta
-    const id = this.route.snapshot.params['id'];
-    this.banderaNuevo = id ? false : true;
-    // Si hay un ID, obtener el producto del servicio
-    if (id) {
-      this.productoServicio.getProductoById(id).subscribe((producto) => {
-        if (producto) {
-          this.nuevoProducto = { ...producto };
-          this.nuevoProducto.proveedor = producto.proveedor;
-        }
-      });
+  }
+
+    // GUARDAR UN NUEVO PRODUCTO O ACTUALIZAR UNO
+    public guardarProducto() {
+      if (this.idProducto != undefined){
+        this.productoServicio.actualizarProducto(this.idProducto, this.nuevoProducto).subscribe(dato => {
+          console.log(dato)
+          this.router.navigate(['/productos']);
+        })
+      } else {
+        this.productoServicio.guardarProducto(this.nuevoProducto).subscribe(dato => {
+          console.log(dato)});
+          this.router.navigate(['/productos']);
+      }    
     }
-  }
 
-  public saveProduct(): void {
-    this.productoServicio.postData(this.nuevoProducto, this.banderaNuevo);
-    this.router.navigate(['/productos']);
+    // CARGAR LOS DATOS DE UN PRODUCTO EN EL 'AGREGAR COMPONENT' 
+  private cargarDatosProducto(idProducto: number): void {
+    this.productoServicio.getProductoById(idProducto).subscribe(
+     producto => {
+        this.nuevoProducto = producto;
+        console.log('RECIBIDO', producto)
+        console.log('GUARDADO',this.nuevoProducto)
+     },
+     error => {
+       console.error('Error al cargar datos del producto:', error);
+     }
+   );
+ }
 
-  }
-  public categoriaProductos(){
-    this.categorias = [...categoriaProductos];
-  }
 }

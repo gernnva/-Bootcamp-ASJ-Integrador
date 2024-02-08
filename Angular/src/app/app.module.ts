@@ -20,7 +20,8 @@ import { OrdenesListarComponent } from './components/Entidades/ordenes-listar/or
 
 import { BuscarPipe } from './pipes/pipe.buscar';
 import { ProveedoresDetalleComponent } from './components/Entidades/proveedores-detalle/proveedores-detalle.component';
-
+import { ProductosDetalleComponent } from './components/Entidades/productos-detalle/productos-detalle.component';
+import { BuscarProductoPipe } from './pipes/pipe.buscarProducto';
 
 
 
@@ -39,7 +40,9 @@ import { ProveedoresDetalleComponent } from './components/Entidades/proveedores-
     ProveedoresAgregarComponent,
     OrdenesListarComponent,
     BuscarPipe,
-    ProveedoresDetalleComponent,   
+    ProveedoresDetalleComponent,
+    ProductosDetalleComponent,   
+    BuscarProductoPipe,
 
   ],
   imports: [

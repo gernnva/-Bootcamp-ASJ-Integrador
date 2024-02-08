@@ -2,75 +2,44 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Producto } from '../models/Producto';
 import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductosService {
-  productos: Producto[] = [];
-  productoEditando: any | undefined;
+  private apiUrl = 'http://localhost:8080/producto';
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private http: HttpClient) {}
+
+  /** OBTENER LOS PRODUCTOS */
+  public obtenerProductos(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
 
   /** OBTENER UN PRODUCTO POR ID */
-  public getProductoById(id: number): Observable<Producto | undefined> {
-    const producto = this.productos.find((p) => p.id == id);
-    return of(producto);
+  public getProductoById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
-  /** OBTENER ULTIMO ID */
-  public obtenerUltimoId(): number {
-    const ultimoId = this.productos.reduce((maxId, producto) => {
-      return producto.id > maxId ? producto.id : maxId;
-    }, 0);
 
-    return ultimoId;
+  /** OBTENER LOS DATOS CATEGORIAS*/
+  public obtenerCategorias(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:8080/categoria');
   }
-  /** OBTENER LOS DATOS */
-  public getDatos(): Observable<Producto[]> {
-    const storedProductos = localStorage.getItem('productos');
-    this.productos = storedProductos ? JSON.parse(storedProductos) : [];
-    return of(this.productos);
+
+  /** GUARDAR UN NUEVO PRODUCTO */
+  public guardarProducto(producto: any): Observable<any> {
+    console.log(producto);
+    return this.http.post(this.apiUrl, producto);
   }
-  /** GUARDAR */
-  public postData(producto: Producto, banderaNuevo: boolean) {
-    if (banderaNuevo) {
-      const nuevoId = this.obtenerUltimoId() + 1;
-      producto.id = nuevoId;
 
-      this.getDatos().subscribe((data) => {
-        const updatedProductos = [...data, producto];
-        this.guardarDatos(updatedProductos);
-      });
-    } else {
-      this.getDatos().subscribe((data) => {
-        const index = data.findIndex((p) => p.id === producto.id);
-        // Reemplaza el producto existente con el nuevo
-        data[index] = producto;
-        this.guardarDatos(data);
-        alert('Actualizado correctamente');
-
-      });
-
-
-
-    }
+  /** ACTUALIZAR UN PRODUCTO */
+  public actualizarProducto(id: number, producto: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, producto);
   }
-  /** GUARDAR EN EL LOCALSTORAGE*/
-  private guardarDatos(productos: Producto[]) {
-    localStorage.setItem('productos', JSON.stringify(productos));
-  }
-  /** BORRAR */
-  public deleteProducto(id: number) {
-    const updatedProductos = this.productos.filter(
-      (producto) => producto.id !== id
-    );
-    this.guardarDatos(updatedProductos);
-    alert('borrada correctamente');
-  }
-  /** OBTENER LOS DATOS PARA EDITAR */
-  public editProducto(producto: Producto): void {
-    this.productoEditando = { ...producto };
 
-    this.router.navigate(['/productos/editar', producto.id]);
+  /** SETEAR ELIMINADO */
+  public SetearEliminado(id: number): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/${id}`, null);
   }
 }
