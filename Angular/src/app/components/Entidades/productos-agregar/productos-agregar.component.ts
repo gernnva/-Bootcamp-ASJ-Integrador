@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProveedoresService } from 'src/app/service/proveedores.service';
 import { Proveedor } from 'src/app/models/Proveedor';
-import { categoriaProductos } from 'src/app/data/categoriaProductos';
+
 
 @Component({
   selector: 'app-productos-agregar',
@@ -80,7 +80,7 @@ export class ProductosAgregarComponent {
       }    
     }
 
-    // CARGAR LOS DATOS DE UN PRODUCTO EN EL 'AGREGAR COMPONENT' 
+  // CARGAR LOS DATOS DE UN PRODUCTO EN EL 'AGREGAR COMPONENT' 
   private cargarDatosProducto(idProducto: number): void {
     this.productoServicio.getProductoById(idProducto).subscribe(
      producto => {

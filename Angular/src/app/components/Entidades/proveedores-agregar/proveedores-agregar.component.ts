@@ -3,7 +3,6 @@ import { ProveedoresService } from 'src/app/service/proveedores.service';
 import { Proveedor } from 'src/app/models/Proveedor';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { tiposContribuyentes } from 'src/app/data/condicionIva';
 import { CategoriasService } from 'src/app/service/categorias.service';
 import { rubrosProveedores } from 'src/app/data/rubrosProveedores';
 

@@ -15,7 +15,7 @@ export class ProductosComponent implements OnInit {
   mostrarEliminados: boolean = false;
   buscarNombreDescripcion = '';
   camposDeBusqueda: string[] = ['nombre', 'descripcion'];
-  buscarCategoria = '';
+  buscarCategoria = '-1';
   categorias: any[] = [];
   productoSeleccionado: any;
 

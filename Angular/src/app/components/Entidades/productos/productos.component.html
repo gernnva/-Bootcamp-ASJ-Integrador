@@ -18,7 +18,7 @@
       </div>
       <div class="col">
         <select name="buscarCategoria" id="buscarCategoria" [(ngModel)]="buscarCategoria" class="form-control">
-          <option value=-1 disabled selected>Filtrar por categorías</option>
+          <option value='-1' disabled selected>Filtrar por categorías</option>
           <option *ngFor="let categoria of categorias" [value]="categoria.nombrecategoria">{{ categoria.nombrecategoria
             }}</option>
         </select>
