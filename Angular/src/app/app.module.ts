@@ -19,9 +19,10 @@ import { ProveedoresAgregarComponent } from './components/Entidades/proveedores-
 import { OrdenesListarComponent } from './components/Entidades/ordenes-listar/ordenes-listar.component';
 
 import { BuscarPipe } from './pipes/pipe.buscar';
-import { ProveedoresDetalleComponent } from './components/Entidades/proveedores-detalle/proveedores-detalle.component';
-import { ProductosDetalleComponent } from './components/Entidades/productos-detalle/productos-detalle.component';
+
+
 import { BuscarProductoPipe } from './pipes/pipe.buscarProducto';
+import { FiltrarPorCategoriaPipe } from './pipes/pipe.buscarCategoria';
 
 
 
@@ -40,9 +41,8 @@ import { BuscarProductoPipe } from './pipes/pipe.buscarProducto';
     ProveedoresAgregarComponent,
     OrdenesListarComponent,
     BuscarPipe,
-    ProveedoresDetalleComponent,
-    ProductosDetalleComponent,   
     BuscarProductoPipe,
+    FiltrarPorCategoriaPipe,
 
   ],
   imports: [

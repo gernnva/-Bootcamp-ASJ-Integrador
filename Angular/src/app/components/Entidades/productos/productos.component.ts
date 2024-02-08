@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductosService } from 'src/app/service/productos.service';
 import { Producto } from 'src/app/models/Producto';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-productos',
@@ -15,11 +16,14 @@ export class ProductosComponent implements OnInit {
   buscarNombreDescripcion = '';
   camposDeBusqueda: string[] = ['nombre', 'descripcion'];
   buscarCategoria = '';
+  categorias: any[] = [];
+  productoSeleccionado: any;
 
-  constructor(public servicioProducto: ProductosService) {}
+  constructor(public servicioProducto: ProductosService, public router: Router) {}
 
   ngOnInit(): void {
-    this.mostrarProductos()
+    this.mostrarProductos();
+    this.mostrarCategorias();
   }
 
   mostrarProductos(){
@@ -50,7 +54,8 @@ export class ProductosComponent implements OnInit {
 
   estadoEliminado(id: number){
     this.servicioProducto.SetearEliminado(id).subscribe((data) => {
-      console.log(id)
+      this.mostrarProductos()
+      
     })
   }
 
@@ -60,8 +65,23 @@ export class ProductosComponent implements OnInit {
 
   toggleMostrarEliminados() {
     this.mostrarEliminados = !this.mostrarEliminados;
+        
   }
 
+  mostrarCategorias(){
+    this.servicioProducto.obtenerCategorias().subscribe((data) => {
+      this.categorias = data;
+      
+    });
+  }
 
+  borrarFiltros(){
+    this.buscarCategoria = '';
+    this.buscarNombreDescripcion = '';
+  }
+
+  abrirModal(producto: any): void {
+    this.productoSeleccionado = producto;
+  }
 
 }

@@ -85,8 +85,6 @@ export class ProductosAgregarComponent {
     this.productoServicio.getProductoById(idProducto).subscribe(
      producto => {
         this.nuevoProducto = producto;
-        console.log('RECIBIDO', producto)
-        console.log('GUARDADO',this.nuevoProducto)
      },
      error => {
        console.error('Error al cargar datos del producto:', error);

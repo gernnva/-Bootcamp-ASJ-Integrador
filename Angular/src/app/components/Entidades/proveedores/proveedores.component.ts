@@ -12,6 +12,7 @@ export class ProveedoresComponent {
   proveedores: any[] = [];
   buscarRazonSocial = '';
   buscarCodigo = '';
+  proveedorElegido: any;
  // proveedor: any;
 
   mostrarEliminados: boolean = false; // 
@@ -40,9 +41,12 @@ export class ProveedoresComponent {
 
   estadoEliminado(id: number){
     this.servicioProveedor.SetearEliminado(id).subscribe((data) => {
-      console.log(id)
+      this.mostrarProveedores();
     })
   }
 
+  abrirModal(proveedor: any): void {
+    this.proveedorElegido = proveedor;
+  }
 
 }
