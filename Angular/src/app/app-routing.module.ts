@@ -7,6 +7,8 @@ import { ProveedoresComponent } from './components/Entidades/proveedores/proveed
 import { ProveedoresAgregarComponent } from './components/Entidades/proveedores-agregar/proveedores-agregar.component';
 import { OrdenesComponent } from './components/Entidades/ordenes/ordenes.component';
 import { OrdenesListarComponent } from './components/Entidades/ordenes-listar/ordenes-listar.component';
+import { CategoriasComponent } from './components/Entidades/categorias/categorias.component';
+import { CategoriasAgregarComponent } from './components/Entidades/categorias-agregar/categorias-agregar.component';
 
 
 
@@ -17,15 +19,18 @@ const routes: Routes = [
   { path: 'productos/agregar', component: ProductosAgregarComponent },
   { path: 'productos/editar/:id', component: ProductosAgregarComponent }, 
 
-
-
   { path: 'proveedores', component: ProveedoresComponent }, // LISTAR LOS PROVEEDORES
   { path: 'proveedores/agregar', component: ProveedoresAgregarComponent }, // AGREGAR UN PROVEEDOR
   { path: 'proveedores/editar/:id', component: ProveedoresAgregarComponent }, // ac me tengo que fijar para ver un proveedor
 
-
   { path: 'ordenCompra', component: OrdenesComponent },
   { path: 'ordenCompra/lista', component: OrdenesListarComponent },
+
+  { path: 'categorias', component: CategoriasComponent },
+  { path: 'categorias/agregar', component: CategoriasAgregarComponent },
+  { path: 'categorias/editar/:id', component: CategoriasAgregarComponent }
+
+
 ];
 
 @NgModule({

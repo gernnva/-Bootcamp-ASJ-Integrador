@@ -1,0 +1,73 @@
+<app-navbar></app-navbar>
+<main class="d-flex">
+    <app-sidebar></app-sidebar>
+
+    <div class=" container">
+
+        <router-outlet></router-outlet>
+        <nav class="mt-2" style="--bs-breadcrumb-divider: '->'" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a routerLink="">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                <span>Categorias</span>
+              </li>
+            </ol>
+          </nav>
+        <div class="container mt-2 col-8">
+            <div class="d-flex justify-content-between mx-3">
+                <h2>Categorias</h2>
+                <div class="d-flex align-items-stretch">
+                    <a routerLink="/" class="btn btn-secondary me-3 btn-sm" tabindex="-1" role="button"
+                        aria-disabled="true">Volver</a>
+                    <a routerLink="/categorias/agregar" class="btn btn-success btn-sm" tabindex="-1" role="button"
+                        aria-disabled="true">Agregar Categoria</a>
+                </div>
+            </div>
+
+            <div class="mt-4 mx-3 border">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="col-8" scope="col">Categoria</th>
+                            <th class="" scope="col">Rubro</th>
+                            <th class="col-2" scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let categoria of categorias">
+                            <tr>
+                                <td>
+                                    {{categoria.nombrecategoria }}
+                                    <span *ngIf="categoria.eliminado"
+                                        style="color: red; margin-left: 5px;">ELIMINADO</span>
+                                </td>
+                                <td>{{categoria.rubro.nombreRubro}}</td>
+                                <td>
+                                    <button type="button" class="btn ms-1 btn-sm"
+                                        [class.btn-danger]="!categoria.eliminado"
+                                        [class.btn-success]="categoria.eliminado"
+                                        (click)="estadoEliminado(categoria.id_categoria)">
+                                        <i *ngIf="!categoria.eliminado" class="bi bi-trash-fill"></i>
+                                        <i *ngIf="categoria.eliminado" class="bi bi-arrow-up-right-square"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-warning ms-1 btn-sm"
+                                        [routerLink]="['/categorias/editar', categoria.id_categoria]">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+
+
+
+                        </ng-container>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+</main>

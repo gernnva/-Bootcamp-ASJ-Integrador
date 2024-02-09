@@ -50,6 +50,7 @@ export class ProveedoresAgregarComponent {
   paisElegido: number = -1;
   rubros: any[] = [];
   condicionesIva: any[] = [];
+  todosLosProveedores: any[] = [];
 
   idProveedor = this.route.snapshot.params['id'];
 
@@ -66,12 +67,19 @@ export class ProveedoresAgregarComponent {
     this.traerPaises();
     this.cargarRubros();
     this.traerCondicionesIva();
+    this.traerProveedores()
     
     if (this.idProveedor != undefined) {
       this.cargarDatosProveedor(this.idProveedor);
       
     }
     
+  }
+
+  traerProveedores(){
+    this.servicioProveedor.obtenerProveedores().subscribe((data) => {
+      this.todosLosProveedores = data;
+    });
   }
 
   public traerPaises() {
@@ -135,15 +143,29 @@ export class ProveedoresAgregarComponent {
   }
   // GUARDAR UN NUEVO PROVEEDOR O ACTUALIZAR UNO
   public guardarProveedor() {
-    if (this.idProveedor != undefined){
-      this.servicioProveedor.actualizarProveedor(this.idProveedor, this.nuevoProveedor).subscribe(dato => {
-        console.log(dato)})
+    // Verificar si ya existe un proveedor con el mismo codProveedor en la lista local
+    const existeProveedor = this.verificarExistenciaProveedorLocal();
+  
+    if (!existeProveedor) {
+      // No existe un proveedor con el mismo codProveedor, proceder con el guardado
+      if (this.idProveedor != undefined) {
+        this.servicioProveedor.actualizarProveedor(this.idProveedor, this.nuevoProveedor)
+          .subscribe(dato => {
+            this.router.navigate(['/proveedores']);
+          });
+      } else {
+        this.servicioProveedor.guardarProveedor(this.nuevoProveedor)
+          .subscribe(dato => {
+            this.router.navigate(['/proveedores']);
+
+          });
+      }
+      
     } else {
-      this.servicioProveedor.guardarProveedor(this.nuevoProveedor).subscribe(dato => {
-        console.log(dato)});
+      // Ya existe un proveedor con el mismo codProveedor, manejar la lógica correspondiente
+      this.mostrarAlert();
+      // Puedes mostrar un mensaje al usuario o tomar la acción que consideres apropiada
     }
-    this.router.navigate(['/proveedores']);
-    
   }
   // CARGAR LOS DATOS DE UN PROVEEDOR EN EL 'AGREGAR COMPONENT' 
   private cargarDatosProveedor(idProveedor: number): void {
@@ -160,8 +182,28 @@ export class ProveedoresAgregarComponent {
       }
     );
   }
+  
+  private verificarExistenciaProveedorLocal(): boolean {
+    // Verificar si ya existe un proveedor con el mismo codProveedor en la lista local
+    return this.todosLosProveedores.some(
+      (proveedor) => proveedor.codProveedor === this.nuevoProveedor.codProveedor
+    );
+  }
 
+  private mostrarAlert(): void {
+    // Mostrar un alert indicando que el codProveedor ya existe
+    const alerta = document.getElementById('alertaCodProveedorExistente');
+    if (alerta) {
+      alerta.style.display = 'block'; // Mostrar el alert
+  
+      // Ocultar el alert después de 5 segundos (5000 milisegundos)
+      setTimeout(() => {
+        alerta.style.display = 'none';
+      }, 5000);
+    }
+  }
 
+  
 
 
 

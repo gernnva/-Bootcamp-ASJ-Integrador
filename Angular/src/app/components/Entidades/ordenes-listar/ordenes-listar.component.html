@@ -1,63 +1,114 @@
 <app-navbar></app-navbar>
 <main class="d-flex">
   <app-sidebar></app-sidebar>
-  <section class="d-flex flex-column flex-grow-1 mt-3 ms-3">
-    <div class="d-flex justify-content-between mx-3">
-      <h2>Órdenes de Compra</h2>
-      <div class="d-flex align-items-stretch">
-        <a routerLink="/ordenCompra" class="btn btn-secondary" tabindex="-1" role="button" aria-disabled="true">Volver</a>
+
+  <div class=" container">
+
+    <nav class="mt-2" style="--bs-breadcrumb-divider: '->'" aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="">Home</a></li>
+        <li class="breadcrumb-item">
+          <a routerLink="/ordenCompra">Ordenes</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          <span>Lista de Ordenes</span>
+        </li>
+      </ol>
+    </nav>
+
+    <section class="d-flex flex-column flex-grow-1 mt-3 ms-3">
+      <div class="d-flex justify-content-between mx-3">
+        <h2>Órdenes de Compra</h2>
+        <button class="btn btn-primary px-5" (click)="toggleMostrarCancelados()">
+          {{ mostrarCancelados ? 'Ver Activos' : 'Ver Inactivos'}}
+        </button>
+        <div class="d-flex align-items-stretch">
+          <a routerLink="/ordenCompra" class="btn btn-secondary" tabindex="-1" role="button"
+            aria-disabled="true">Volver</a>
+        </div>
       </div>
-    </div>
-  
-    <div  *ngIf="!mostrarDetalles" class="m-3 border ">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Número de Orden</th>
-            <th scope="col">Fecha de Emisión</th>
-            <th scope="col">Fecha de Entrega</th>
-            <th scope="col">Total</th>
-            <th scope="col">Ver Detalles</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let orden of ordenesGuardadas">
-            <td>{{ orden.id_Orden }}</td>
-            <td>{{ orden.fechaEmision | date: 'dd/MM/yyyy' }}</td>
-            <td>{{ orden.fechaEntrega | date: 'dd/MM/yyyy' }}</td>
-            <td>{{ orden.total | currency: 'ARS ' }}</td>
-            <td>
-              <button type="button" class="btn btn-info" (click)="verDetalles(orden)">Ver Detalles</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div *ngIf="ordenesGuardadas.length === 0" class="alert alert-warning mx-2" role="alert">
-        <h4 class="alert-heading">¡Tabla Vacía!</h4>
-        <p>No hay órdenes de compra guardadas.</p>
+
+      <div *ngIf="!mostrarDetalles" class="m-3 border ">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Número de Orden</th>
+              <th scope="col">Fecha de Emisión</th>
+              <th scope="col">Fecha de Entrega</th>
+              <th scope="col">Total</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let orden of ordenesGuardadas.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)">
+              <ng-container *ngIf="mostrarCancelados ? orden.cancelada : !orden.cancelada">
+                <tr                  >
+                  <td>
+                    {{ orden.id_Orden }}
+                    <span *ngIf="orden.cancelada" style="color: red; margin-left: 5px;">CANCELADA</span>
+                  </td>
+                  <td>{{ orden.fechaEmision | date: 'dd/MM/yyyy' }}</td>
+                  <td>{{ orden.fechaEntrega | date: 'dd/MM/yyyy' }}</td>
+                  <td>{{ orden.total | currency: 'ARS ' }}</td>
+                  <td>
+                    <button type="button" class="btn btn-secondary btn-sm" (click)="verDetalles(orden)">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button type="button" class="btn ms-1 btn-sm btn-danger" [disabled]="orden.cancelada"
+                      (click)="estadoEliminado(orden.id_Orden)">
+                      <i class="bi bi-trash-fill"></i>
+
+                    </button>
+                  </td>
+                </tr>
+              </ng-container>
+            </ng-container>
+          </tbody>
+        </table>
+
+        <div class="d-flex justify-content-between mt-3">
+          <button type="button" class="btn btn-primary" (click)="verRegistrosAnteriores()"
+            [disabled]="!showPreviousButton">Ver Anteriores 5 Registros</button>
+          <button type="button" class="btn btn-primary" (click)="verSiguientesRegistros()"
+            [disabled]="!showNextButton">Ver Siguientes 5 Registros</button>
+        </div>
+
+
+
+        <div *ngIf="ordenesGuardadas.length === 0" class="alert alert-warning mx-2" role="alert">
+          <h4 class="alert-heading">¡Tabla Vacía!</h4>
+          <p>No hay órdenes de compra guardadas.</p>
+        </div>
       </div>
-    </div>
-    
-    <!-- Detalles de la orden (tarjeta) -->
-    <div *ngIf="mostrarDetalles && ordenSeleccionada" class="card mt-3">
-      <div class="card-body">
-        <h5 class="card-title">Detalles de la Orden</h5>
-        <p>ID: {{ ordenSeleccionada.id }}</p>
-        <p>Fecha de Emisión: {{ ordenSeleccionada.fechaEmision | date: 'dd/MM/yyyy' }}</p>
-        <p>Fecha de Entrega: {{ ordenSeleccionada.fechaEntrega | date: 'dd/MM/yyyy' }}</p>
-        <p>Total: {{ ordenSeleccionada.precio | currency: 'ARS ' }}</p>
-        <p>Observaciones: {{ ordenSeleccionada.info}}</p>
-        <p> Productos de la orden:</p>
-        <ul>
-          <!-- Iterar sobre los productos de la orden -->
-          <li *ngFor="let producto of ordenSeleccionada.productos">
-            {{ producto.nombre }} - Cantidad: {{ producto.cantidad }} - Precio Unitario: {{ producto.precioUnitario | currency: 'ARS ' }}
-          </li>
-        </ul>
-      
-        <button type="button" class="btn btn-secondary mt-2" (click)="cerrarDetalles()">Cerrar Detalles</button>
+
+      <!-- Detalles de la orden (tarjeta) -->
+      <div *ngIf="mostrarDetalles && ordenSeleccionada" class="card mt-3">
+        <div class="card-body">
+          <h5 class="card-title">Detalles de la Orden</h5>
+          <p>ID: {{ ordenSeleccionada.id_Orden }}</p>
+          <p>Fecha de Emisión: {{ ordenSeleccionada.fechaEmision | date: 'dd/MM/yyyy' }}</p>
+          <p>Fecha de Entrega: {{ ordenSeleccionada.fechaEntrega | date: 'dd/MM/yyyy' }}</p>
+          <p>Total: {{ ordenSeleccionada.total | currency: 'ARS ' }}</p>
+          <p>Observaciones: {{ ordenSeleccionada.descripcion}}</p>
+          <p> Productos de la orden:</p>
+          <ul>
+            <!-- Iterar sobre los productos de la orden -->
+            <li *ngFor="let producto of ordenSeleccionada.preordenes">
+
+              {{ producto.productos.nombre}} - Cantidad: {{ producto.cantidad }} - Precio Unitario: {{
+              producto.productos.precio | currency: 'ARS ' }}
+            </li>
+          </ul>
+
+          <button type="button" class="btn btn-secondary mt-2" (click)="cerrarDetalles()">Cerrar Detalles</button>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+
+
+  </div>
+
+
 </main>
 <app-footer></app-footer>

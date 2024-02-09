@@ -8,5 +8,7 @@ import com.proyecto.gestion.entities.Categoria;
 @Repository
 public interface CategoriaRepositorio extends JpaRepository<Categoria, Integer> {
 	
+	boolean existsByNombrecategoriaIgnoreCase(String nombrecategoria);
+	
 
 }

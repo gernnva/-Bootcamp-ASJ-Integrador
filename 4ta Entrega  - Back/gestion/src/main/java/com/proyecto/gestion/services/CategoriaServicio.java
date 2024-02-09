@@ -83,6 +83,11 @@ public class CategoriaServicio {
             throw new NoSuchElementException("Categoría no encontrada con ID: " + idCategoria);
         }
     }
+    // saber si una categoria se repite
+    public boolean validarCategoria(String categoria) {
+        boolean existsByCategory = categoriaRepositorio.existsByNombrecategoriaIgnoreCase(categoria);
+        return existsByCategory;
+    }
     
     
 	

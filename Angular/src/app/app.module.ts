@@ -24,10 +24,17 @@ import { BuscarPipe } from './pipes/pipe.buscar';
 import { BuscarProductoPipe } from './pipes/pipe.buscarProducto';
 import { FiltrarPorCategoriaPipe } from './pipes/pipe.buscarCategoria';
 
+import { NgxPaginationModule } from 'ngx-pagination';
+import { PaginationControlsDirective } from 'ngx-pagination';
+import { CategoriasComponent } from './components/Entidades/categorias/categorias.component';
+import { CategoriasAgregarComponent } from './components/Entidades/categorias-agregar/categorias-agregar.component';
+
+
 
 
 @NgModule({
   declarations: [
+    
     AppComponent,
     ProveedoresComponent,
     ProductosComponent,
@@ -43,6 +50,10 @@ import { FiltrarPorCategoriaPipe } from './pipes/pipe.buscarCategoria';
     BuscarPipe,
     BuscarProductoPipe,
     FiltrarPorCategoriaPipe,
+    CategoriasComponent,
+    CategoriasAgregarComponent,
+
+    
 
   ],
   imports: [
@@ -50,7 +61,9 @@ import { FiltrarPorCategoriaPipe } from './pipes/pipe.buscarCategoria';
     AppRoutingModule,
     NgbModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxPaginationModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

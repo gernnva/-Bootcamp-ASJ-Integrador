@@ -1,100 +1,126 @@
 <app-navbar></app-navbar>
 <main class="d-flex">
   <app-sidebar></app-sidebar>
-  <div class="container text-center col-8">
-    <div class="row mt-3">
-      <!-- Formulario para ver los productos y gestionar una ORDEN -->
-      <div class="col border m-3">
-        <h4 class="my-4">Orden de Compra</h4>
-        <div class="mb-3 row pe-2">
-          <label for="fechaEmision" class="form-label col-auto">Fecha Emisión: {{ hoy | date:'short' }} </label>
-          <label class="form-label col" id="fechaEmision" name="fechaEmision"></label>
-          <label for="fechaEntrega" class="form-label col-auto">Fecha Entrega</label>
-          <input type="date" class="form-control col" id="fechaEntrega" name="fechaEntrega" [(ngModel)]="nuevaOrden.fechaEntrega">
-        </div>
 
-        <div class="mb-3">
-          <label for="descripcion" class="form-label">Descripción</label>
-          <textarea class="form-control" id="descripcion" name="descripcion" [(ngModel)]="nuevaOrden.descripcion"></textarea>
-        </div>
-        <!-- el select de mierda de  producto-->
-        <h4 class="my-4">Agregar producto</h4>
-        <div class="mb-3">
-          <label for="proveedor" class="form-label">Proveedor:</label>
-          <select id="proveedor" class="form-select" name="proveedor" [(ngModel)]="proveedorSeleccionado" (change)="onProveedorChange()" [disabled]="productosPreOrden.length > 0">
-            <option value="-1" disabled selected>Selecciona un proveedor</option>
-            <option *ngFor="let proveedor of proveedores" [value]="proveedor.id_proveedor">
-              {{ proveedor.razon_social }}
-            </option>
-          </select>
-        </div>
+  <div class=" container">
 
-        <div class="mb-3">
-          <label for="producto" class="form-label">Productos:</label>
-          <select id="producto" class="form-select" name="producto" required [(ngModel)]="productoSeleccionado" (change)="actualizarPrecio()">
-            <option value="-1" disabled selected>Selecciona un proveedor</option>
-            <option *ngFor="let producto of productosFiltrados" [ngValue]="producto">
-              {{ producto.nombre }}
-            </option>
-          </select>
-        </div>
+    <nav class="mt-2" style="--bs-breadcrumb-divider: '->'" aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">
+          <span>Creando Orden</span>
+        </li>
+      </ol>
+    </nav>
 
-        <div class="mb-3 d-flex justify-content-evenly">
-          <div>
-            <label for="precio" class="form-label">Precio:</label>
-            <div class="d-flex">
-              <span class="input-group-text"> ${{precioProducto | currency: 'ARS ' }}</span>
-              <input id="precio" type="number" class="form-control" name="precio" required [(ngModel)]="precioProducto" readonly hidden />
+    <div class="container text-center col-8">
+      <div class="d-flex justify-content-between mt-3">
+        <h2 class="">
+         Creando orden de Compra
+        </h2>
+        <a routerLink="" class="btn btn-secondary" tabindex="-1" role="button" aria-disabled="true">Volver</a>
+      </div>
+      <form #myForm="ngForm" (ngSubmit)="crearPreorden()">
+      <div class="row mt-1">
+        <!-- Formulario para ver los productos y gestionar una ORDEN -->
+        
+        <div class="col border m-3">
+          <h4 class="my-4">Orden de Compra</h4>
+          <div class="mb-3 row pe-2">
+            <label for="fechaEmision" class="form-label col-auto">Fecha Emisión: {{ hoy | date:'short' }} </label>
+            <label class="form-label col" id="fechaEmision" name="fechaEmision"></label>
+            <label for="fechaEntrega" class="form-label col-auto">Fecha Entrega</label>
+            <input type="date" class="form-control col" id="fechaEntrega" name="fechaEntrega" [(ngModel)]="nuevaOrden.fechaEntrega" [min]="minFechaEntrega">
+          </div>
+  
+          <div class="mb-3">
+            <label for="descripcion" class="form-label">Descripción</label>
+            <textarea class="form-control" id="descripcion" name="descripcion" [(ngModel)]="nuevaOrden.descripcion"></textarea>
+          </div>
+          <!-- el select de mierda de  producto-->
+          <h4 class="my-4">Agregar producto</h4>
+          <div class="mb-3">
+            <label for="proveedor" class="form-label">Proveedor:</label>
+            <select id="proveedor" class="form-select" name="proveedor" [(ngModel)]="proveedorSeleccionado" (change)="onProveedorChange()" [disabled]="productosPreOrden.length > 0">
+              <option value="-1" disabled selected>Selecciona un proveedor</option>
+              <option *ngFor="let proveedor of proveedores" [value]="proveedor.id_proveedor">
+                {{ proveedor.razon_social }}
+              </option>
+            </select>
+          </div>
+  
+          <div class="mb-3">
+            <label for="producto" class="form-label">Productos:</label>
+            <select id="producto" class="form-select" name="producto" required [(ngModel)]="productoSeleccionado" (change)="actualizarPrecio()">
+              <option value="-1" disabled selected>Selecciona un proveedor</option>
+              <option *ngFor="let producto of productosFiltrados" [ngValue]="producto">
+                {{ producto.nombre }}
+              </option>
+            </select>
+          </div>
+  
+          <div class="mb-3 d-flex justify-content-evenly">
+            <div>
+              <label for="precio" class="form-label">Precio:</label>
+              <div class="d-flex">
+                <span class="input-group-text"> ${{precioProducto | currency: 'ARS ' }}</span>
+                <input id="precio" type="number" class="form-control" name="precio" required [(ngModel)]="precioProducto" readonly hidden />
+              </div>
+            </div>
+            <div>
+              <label for="cantidad" class="form-label">Cantidad:</label>
+              <input id="cantidad" type="number" class="form-control" min="1" max="10" name="cantidad" required  [(ngModel)]="productoAgregar.cantidad"/>
             </div>
           </div>
-          <div>
-            <label for="cantidad" class="form-label">Cantidad:</label>
-            <input id="cantidad" type="number" class="form-control" min="1" name="cantidad" required  [(ngModel)]="productoAgregar.cantidad"/>
+  
+          <div class="my-5">
+            <button type="button" class="btn btn-success p-3" (click)="agregarProducto()" >Agregar Producto</button>
+          </div>
+          <!--         ---------------------------------------------------------------------------------------------------------->
+          <!-- Iterar sobre los productos agregados -->
+          <div class="mb-3 d-flex justify-content-between">
+            <div class="me-3">
+              <strong>Item (Cantidad)</strong>
+            </div>
+            <div>
+              <strong>Precio</strong>
+            </div>
+          </div>
+  
+          <div *ngFor="let producto of productosPreOrden" class="mb-3 d-flex justify-content-between">
+            <div class="me-3">
+              <!-- Nombre del producto y su cantidad -->
+              {{ producto.productos.nombre }} - ({{ producto.cantidad }})
+            </div>
+            <div>
+              <!-- Precio total por producto y cantidad -->
+              Precio Total: {{ producto.productos.precio * producto.cantidad | currency }}
+            </div>
+          </div>
+          
+          <!-- Mostrar la suma total -->
+          <div class="mb-3 d-flex justify-content-end">
+            <div class="me-3">
+              <strong>Total</strong>
+            </div>
+            <div>
+              <!-- Muestra el total acumulado de los productos -->
+              {{ calcularTotal() | currency }}
+            </div>
+          </div>
+  
+          <div class="mb-3 d-flex justify-content-end">
+            <button class="btn btn-danger me-2" (click)="borrarProductos()">Borrar Productos</button>
+            <button class="btn btn-success" type="submit" >Guardar Orden</button>
           </div>
         </div>
-
-        <div class="my-5">
-          <button type="button" class="btn btn-success p-3" (click)="agregarProducto()" >Agregar Producto</button>
-        </div>
-<!--         ---------------------------------------------------------------------------------------------------------->
-        <!-- Iterar sobre los productos agregados -->
-        <div class="mb-3 d-flex justify-content-between">
-          <div class="me-3">
-            <strong>Item (Cantidad)</strong>
-          </div>
-          <div>
-            <strong>Precio</strong>
-          </div>
-        </div>
-
-        <div *ngFor="let producto of productosPreOrden" class="mb-3 d-flex justify-content-between">
-          <div class="me-3">
-            <!-- Nombre del producto y su cantidad -->
-            {{ producto.productos.nombre }} - ({{ producto.cantidad }})
-          </div>
-          <div>
-            <!-- Precio total por producto y cantidad -->
-            Precio Total: {{ producto.productos.precio * producto.cantidad | currency }}
-          </div>
-        </div>
-        
-        <!-- Mostrar la suma total -->
-        <div class="mb-3 d-flex justify-content-end">
-          <div class="me-3">
-            <strong>Total</strong>
-          </div>
-          <div>
-            <!-- Muestra el total acumulado de los productos -->
-            {{ calcularTotal() | currency }}
-          </div>
-        </div>
-
-        <div class="mb-3 d-flex justify-content-end">
-          <button class="btn btn-danger me-2" (click)="borrarProductos()">Borrar Productos</button>
-          <button class="btn btn-success" (click)="crearPreorden()">Guardar Orden</button>
-        </div>
+      
       </div>
+    </form>
     </div>
+
   </div>
+
+  
 </main>
 <app-footer></app-footer>

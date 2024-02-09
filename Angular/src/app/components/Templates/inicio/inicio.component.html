@@ -12,18 +12,21 @@
         Listado de Proveedores.<br />
         Agregar, Modificar o Baja de un proveedor.
       </p>
-      <a routerLink="proveedores" class="btn btn-primary">Ir a Proveedores</a>
+      <h6>Cantidad de Proveedores: {{ proveedoresCantidad }}</h6>
+      <a routerLink="proveedores" class="btn btn-primary mt-2">Ir a Proveedores</a>
     </div>
   </div>
   <div class="card m-5" style="width: 18rem">
     <img src="../assets/img/productoimg2.jpg" class="card-img-top" alt="..." />
     <div class="card-body">
-      <h5 class="card-title">Productos/Servicios</h5>
+      <h5 class="card-title">Productos</h5>
+      
       <p class="card-text">
         Listado de Productos.<br />
         Agregar, Modificar o Baja de un producto.
       </p>
-      <a routerLink="productos" class="btn btn-primary"
+      <h6>Cantidad de Productos: {{ productosCantidad }}</h6>
+      <a routerLink="productos" class="btn btn-primary mt-2"
         >Ir a Productos/Servicios</a
       >
     </div>
@@ -36,7 +39,8 @@
         Listado de Ordenes.<br />
         Agregar, Modificar o Baja de una orden.
       </p>
-      <a href="ordenCompra" class="btn btn-primary">Ir a Ordenes de compra</a>
+      <h6>Cantidad de Ordenes: {{ ordenesCantidad }}</h6>
+      <a href="ordenCompra" class="btn btn-primary mt-2">Ir a Ordenes de compra</a>
     </div>
   </div>
 </section>

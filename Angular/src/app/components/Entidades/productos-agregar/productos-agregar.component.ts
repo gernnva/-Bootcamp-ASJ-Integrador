@@ -29,9 +29,8 @@ export class ProductosAgregarComponent {
   };
 
   
-  // no usando viejo modelo
-  banderaNuevo!: boolean;
   //usando
+  banderaNuevo!: boolean;
   idProducto = this.route.snapshot.params['id'];
   proveedores: any[] = [];
   categorias: any[] = [];
@@ -56,7 +55,7 @@ export class ProductosAgregarComponent {
 
   public traerCategorias() {
     this.productoServicio.obtenerCategorias().subscribe((data) => {
-      this.categorias = data;
+      this.categorias = data.filter((categoria) => !categoria.eliminado);
     });
   }
 
@@ -75,8 +74,10 @@ export class ProductosAgregarComponent {
         })
       } else {
         this.productoServicio.guardarProducto(this.nuevoProducto).subscribe(dato => {
-          console.log(dato)});
+          console.log(dato)
           this.router.navigate(['/productos']);
+        });
+          
       }    
     }
 

@@ -1,142 +1,155 @@
 <app-navbar></app-navbar>
 <main class="d-flex">
   <app-sidebar></app-sidebar>
-  <section class="container">
-    <div class="d-flex justify-content-between m-3">
-      <h2> {{ mostrarEliminados ? 'Proveedores Inactivos' : 'Proveedores Activos'}}</h2>
-      <div>
-        <a routerLink="/" class="btn btn-secondary me-3" tabindex="-1" role="button" aria-disabled="true">Volver</a>
-        <a routerLink="/proveedores/agregar" class="btn btn-success" tabindex="-1" role="button"
-          aria-disabled="true">Agregar Nuevo Proveedor</a>
+
+  <div class=" container">
+
+    <nav class="mt-2" style="--bs-breadcrumb-divider: '->'" aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="">Home</a></li>
+
+        <li class="breadcrumb-item active" aria-current="page">
+          <span>Proveedores</span>
+        </li>
+      </ol>
+    </nav>
+
+    <section class="container">
+      <div class="d-flex justify-content-between m-3">
+        <h2> {{ mostrarEliminados ? 'Proveedores Inactivos' : 'Proveedores Activos'}}</h2>
+        <div>
+          <a routerLink="/" class="btn btn-secondary me-3" tabindex="-1" role="button" aria-disabled="true">Volver</a>
+          <a routerLink="/proveedores/agregar" class="btn btn-success" tabindex="-1" role="button"
+            aria-disabled="true">Agregar Nuevo Proveedor</a>
+        </div>
+  
       </div>
-      
-    </div>
-    <div class="m-3 border">
-      <div class="d-flex mb-3">
-        <div class="col">
-          <input
-            type="text"
-            name="buscarRazonSocial"
-            [(ngModel)]="buscarRazonSocial"
-            placeholder="Filtrar por razón social"
-            class="form-control"
-          />
+      <div class="d-flex mb-3  mx-3">
+        <div class="col me-3">
+          <input type="text" name="buscarRazonSocial" [(ngModel)]="buscarRazonSocial"
+            placeholder="Filtrar por razón social" class="form-control" />
+        </div>
+        <div class="col  me-3">
+          <input type="text" name="buscarCodigo" [(ngModel)]="buscarCodigo" placeholder="Filtrar por código"
+            class="form-control" />
         </div>
         <div class="col">
-          <input
-            type="text"
-            name="buscarCodigo"
-            [(ngModel)]="buscarCodigo"
-            placeholder="Filtrar por código"
-            class="form-control"
-          />
-        </div>
-        <div class="col">
-          <button
-            class="btn btn-danger"
-            (click)="borrarFiltros()"
-            ngbTooltip="Limpiar Filtros"
-          >
-            <i class="bi bi-eraser"></i>
+          <button class="btn btn-danger" (click)="borrarFiltros()" ngbTooltip="Limpiar Filtros">
+            Borrar Filtros
           </button>
         </div>
         <button class="btn btn-primary px-5" (click)="toggleMostrarEliminados()">
           {{ mostrarEliminados ? 'Ver Activos' : 'Ver Inactivos'}}
         </button>
       </div>
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Logo</th>
-            <th scope="col">Codigo</th>
-            <th scope="col">Razon Social</th>
-            <th scope="col">Pais, Provincia</th>
-            <th scope="col">Apellido y Nombre</th>
-            <th scope="col">Contacto</th>
-            <th scope="col">Acciones</th>
-          </tr>
-        </thead>
-
-        <tbody id="proveedoresTableBody">
-          <ng-container *ngFor="let p of proveedores | buscar: buscarRazonSocial:'razon_social' | buscar: buscarCodigo:'codProveedor'">
-            <ng-container *ngIf="mostrarEliminados ? p.eliminado : !p.eliminado">
-              <tr>
-                <td>
-                  <img src="{{ p.logo }}" alt="Logo" style="width: 50px; height: 50px;">
-                </td>
-                <td>{{ p.codProveedor }}</td>
-                <td>{{ p.razon_social}}</td>
-                <td>{{ p.direccion.provincia.nombreProvincia}}, {{ p.direccion.provincia.country.nombrePais}}</td>
-                <td>{{ p.contactoInfo.apellido}}, {{ p.contactoInfo.nombre}}</td>
-                <td>             
-                  <i class="bi bi-telephone me-2" [ngbTooltip]="p.contactoInfo.telCelular"></i>
-                  <i class="bi bi-globe me-2" [ngbTooltip]="p.paginaWeb"></i>
-                  <i class="bi bi-envelope" [ngbTooltip]="p.email"></i>
-                </td>
-                <td>
-                  <button type="button" class="btn btn-secondary btn-sm" (click)="abrirModal(p)" data-bs-toggle="modal" data-bs-target="#proveedorModal">
-                    <i class="bi bi-eye"></i>
-                  </button>
-                  <button type="button" class="btn btn-warning ms-1 btn-sm" [routerLink]="['/proveedores/editar', p.id_proveedor]">
-                    <i class="bi bi-pencil-square"></i>
-                  </button>
-                  <button type="button" class="btn btn-danger ms-1 btn-sm" (click)="estadoEliminado(p.id_proveedor)">
-                    <i class="bi bi-trash-fill"></i>
-                  </button>
-                </td>
-              </tr>
+      <div class="m-3 border">
+  
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Logo</th>
+              <th scope="col">Codigo</th>
+              <th scope="col">Razon Social</th>
+              <th scope="col">Pais, Provincia</th>
+              <th scope="col">Apellido y Nombre</th>
+              <th scope="col">Contacto</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+  
+          <tbody id="proveedoresTableBody">
+            <ng-container
+              *ngFor="let p of proveedores | buscar: buscarRazonSocial:'razon_social' | buscar: buscarCodigo:'codProveedor'">
+              <ng-container *ngIf="mostrarEliminados ? p.eliminado : !p.eliminado">
+                <tr>
+                  <td>
+                    <img src="{{ p.logo }}" alt="Logo" style="width: 50px; height: 50px;">
+                  </td>
+                  <td>{{ p.codProveedor }}</td>
+                  <td>{{ p.razon_social}}</td>
+                  <td>{{ p.direccion.provincia.nombreProvincia}}, {{ p.direccion.provincia.country.nombrePais}}</td>
+                  <td>{{ p.contactoInfo.apellido}}, {{ p.contactoInfo.nombre}}</td>
+                  <td>
+                    <i class="bi bi-telephone me-2" [ngbTooltip]="p.contactoInfo.telCelular"></i>
+                    <i class="bi bi-globe me-2" [ngbTooltip]="p.paginaWeb"></i>
+                    <i class="bi bi-envelope" [ngbTooltip]="p.email"></i>
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-secondary btn-sm" (click)="abrirModal(p)" data-bs-toggle="modal"
+                      data-bs-target="#proveedorModal">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button type="button" class="btn btn-warning ms-1 btn-sm"
+                      [routerLink]="['/proveedores/editar', p.id_proveedor]">
+                      <i class="bi bi-pencil-square"></i>
+                    </button>
+  
+                    <button type="button" 
+                            class="btn ms-1 btn-sm" 
+                            [class.btn-danger]="!p.eliminado"
+                            [class.btn-success]="p.eliminado"
+                            (click)="estadoEliminado(p.id_proveedor)">
+                            <i *ngIf="!p.eliminado" class="bi bi-trash-fill"></i>
+                            <i *ngIf="p.eliminado" class="bi bi-arrow-up-right-square"></i>
+                    </button>
+                  </td>
+                </tr>
+              </ng-container>
             </ng-container>
-          </ng-container>
-        </tbody>
-      </table>
-      <div *ngIf="proveedores.length === 0" class="alert alert-warning mx-2" role="alert">
-        <h4 class="alert-heading">¡Tabla Vacia!</h4>
-        <p>No hay Proveedores cargados.</p>
-        <hr>
-        <p class="mb-0">Agrega nuevos Proveedores utilizando el botón "Agregar Nuevo Proveedor" que esta arriba a la
-          derecha.</p>
+          </tbody>
+        </table>
+        <div *ngIf="proveedores.length === 0" class="alert alert-warning mx-2" role="alert">
+          <h4 class="alert-heading">¡Tabla Vacia!</h4>
+          <p>No hay Proveedores cargados.</p>
+          <hr>
+          <p class="mb-0">Agrega nuevos Proveedores utilizando el botón "Agregar Nuevo Proveedor" que esta arriba a la
+            derecha.</p>
+        </div>
       </div>
-    </div>
- <!-- Modal -->
- <div class="modal fade" id="proveedorModal" tabindex="-1" aria-labelledby="exampleModalLabel"
- aria-hidden="true">
- <div class="modal-dialog modal-lg">
-   <div class="modal-content">
-     <div class="modal-header">
-       <h2 class="modal-title" id="exampleModalLabel">{{ proveedorElegido?.razon_social }}</h2>
-       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-     </div>
-     <div class="modal-body">
-       <div class="row">
-         <div class="col-md-6 border justify-content-end">
-           <img src="{{ proveedorElegido?.logo }}" alt="LogoProducto" class="img-fluid mb-3">
-           <p class="mb-2"><strong>Codigo: </strong> {{ proveedorElegido?.codProveedor }}</p>
+      <!-- Modal -->
+      <div class="modal fade" id="proveedorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2 class="modal-title" id="exampleModalLabel">{{ proveedorElegido?.razon_social }}</h2>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-6 border justify-content-end">
+                  <img src="{{ proveedorElegido?.logo }}" alt="LogoProducto" class="img-fluid mb-3">
+                  <p class="mb-2"><strong>Codigo: </strong> {{ proveedorElegido?.codProveedor }}</p>
+  
+                </div>
+                <div class="col-md-6">
+                  <h4>Informacion</h4>
+                  <div class="mt-3">
+                    <p class="mb-2"><strong>Email: </strong> {{ proveedorElegido?.email }}</p>
+                    <p class="mb-2"><strong>Rubro: </strong> {{ proveedorElegido?.rubro.nombreRubro }}</p>
+                    <p class="mb-2"><strong>Web: </strong> {{ proveedorElegido?.paginaWeb }}</p>
+                    <p class="mb-2"><strong>Cuit:</strong> {{ proveedorElegido?.cuit }}</p>
+                    <p class="mb-2"><strong>Condicion IVA:</strong> {{ proveedorElegido?.condIva.condicion }}</p>
+                  </div>
+  
+                  <h4 class="mt-5">Contacto</h4>
+                  <p class="mb-2"><strong>Rol:</strong> {{ proveedorElegido?.contactoInfo.rol }}</p>
+                  <p class="mb-2"><strong>Email personal:</strong> {{ proveedorElegido?.contactoInfo.email }}</p>
+                  <p class="mb-2"><strong>Celular:</strong> {{ proveedorElegido?.contactoInfo.telCelular }}
+                  </p>
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </section>
 
-         </div>
-         <div class="col-md-6">
-           <h4>Informacion</h4>
-           <div class="mt-3">
-             <p class="mb-2"><strong>Email: </strong> {{ proveedorElegido?.email }}</p>
-             <p class="mb-2"><strong>Rubro: </strong> {{ proveedorElegido?.rubro.nombreRubro }}</p>
-             <p class="mb-2"><strong>Web: </strong> {{ proveedorElegido?.paginaWeb }}</p>
-             <p class="mb-2"><strong>Cuit:</strong> {{ proveedorElegido?.cuit }}</p>
-             <p class="mb-2"><strong>Condicion IVA:</strong> {{ proveedorElegido?.condIva.condicion }}</p>
-           </div>
 
-           <h4 class="mt-5">Contacto</h4>
-           <p class="mb-2"><strong>Rol:</strong> {{ proveedorElegido?.contactoInfo.rol }}</p>
-           <p class="mb-2"><strong>Email personal:</strong> {{ proveedorElegido?.contactoInfo.email }}</p>
-           <p class="mb-2"><strong>Celular:</strong> {{ proveedorElegido?.contactoInfo.telCelular }}
-           </p>
+  </div>
 
-         </div>
-       </div>
-     </div>
-   </div>
- </div>
-</div>
-
-  </section>
+  
 </main>
 
 <app-footer></app-footer>

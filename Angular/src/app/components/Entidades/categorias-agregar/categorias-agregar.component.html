@@ -1,0 +1,66 @@
+<app-navbar></app-navbar>
+<main class="d-flex">
+  <app-sidebar></app-sidebar>
+
+  <div class=" container">
+
+    <router-outlet></router-outlet>
+
+    <nav class="mt-2" style="--bs-breadcrumb-divider: '->'" aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="">Home</a></li>
+        <li class="breadcrumb-item">
+          <a routerLink="/categorias">Categoria</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          <span>Agregando Categoria</span>
+        </li>
+      </ol>
+    </nav>
+
+    <div class="container mt-5 col-5">
+      <h2 class="mb-3">
+        Agregar Categoria<!-- {{ banderaNuevo ? "Editando Producto" : "Agregando Producto"}} -->
+      </h2>
+      <section id="nuevoProductoForm">
+        <form #myForm="ngForm" (ngSubmit)="guardarCategoria()"> <!-- NG FORM  -->
+          <div class="form-group">
+            <label for="nombreCategoria">Nombre de la Categoria</label>
+            <input type="text" class="form-control" id="nombreCategoria" name="nombreCategoria"
+              [(ngModel)]="categoria.nombrecategoria">
+          </div>
+          <div class="form-group">
+            <label for="rubro">Rubro:</label>
+            <select class="form-select" id="rubro" name="rubro" [(ngModel)]="categoria.rubro.id_rubro" required>
+              <option value="-1">Selecciona un Rubro</option>
+              <option *ngFor="let rubro of rubros" [value]="rubro.id">
+                {{ rubro.nombre }}
+              </option>
+            </select>
+          </div>
+          <div class="d-flex justify-content-end">
+            <div id="alertaCategoriaExistente" class="alert alert-danger col-8 mt-3 me-2" style="display: none;">
+              El Nombre de la Categoria ya existe. Por favor, elija otro.
+            </div>
+            <button class="btn btn-success p-3 my-3 me-" type="submit">
+              {{ categoria.id_categoria ? 'Guardar Cambios' : 'Agregar Proveedor' }}
+            </button>
+          </div>
+
+
+        </form>
+
+      </section>
+
+
+    </div>
+
+
+
+  </div>
+
+
+
+
+</main>
+

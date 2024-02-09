@@ -68,5 +68,12 @@ public class CategoriaControlador {
         Categoria categoriaActualizada = categoriaServicio.cambiarEstadoEliminado(id);
         return ResponseEntity.ok(categoriaActualizada);
     }
+    
+    @PatchMapping("/existe/{categoria}")
+    public ResponseEntity<Boolean> existNombreCategoria(@PathVariable String categoria) {
+        boolean respuesta = categoriaServicio.validarCategoria(categoria);
+        return ResponseEntity.ok().body(respuesta);
+    } 
+
 	
 }

@@ -14,7 +14,7 @@ import { forkJoin } from 'rxjs';
 })
 export class OrdenesComponent implements OnInit {
   
-  // nuevos
+  // VARIABLES
   proveedores: any[] = [];
   productos: any[] = [];
   productosFiltrados: any[] = [];
@@ -24,37 +24,37 @@ export class OrdenesComponent implements OnInit {
   productosPreOrden: any[] = [];
   cantidad: undefined;
   hoy: Date = new Date();
+  minFechaEntrega: string = '';
+  
   //-------------------------------------------------------------
   nuevaOrden: any = {    
     fechaEntrega: '',
     descripcion: '',
     preordenes: [],
-
   };
 
   productoAgregar: any = {
     productos: undefined,
-    cantidad: undefined
+    cantidad: 1 
   }
-
-  
-  // Obtener la fecha actual
 
   constructor(
     private productosService: ProductosService,
     private router: Router,
     private proveedoresServicio: ProveedoresService,
-    private ordenesService: OrdenesService
+    private ordenesService: OrdenesService,
   ) {}
 
   ngOnInit(): void {
     this.obtenerProveedores();
     this.obtenerProductos();
+    this.actualizarMinFechaEntrega();
   }
 
   obtenerProveedores(): void {
     this.proveedoresServicio.obtenerProveedores().subscribe((data) => {
-      this.proveedores = data;
+      // Filtra los proveedores que no están eliminados
+      this.proveedores = data.filter((proveedor) => !proveedor.eliminado);
     });
   }
 
@@ -64,18 +64,19 @@ export class OrdenesComponent implements OnInit {
     })
   }
 
-  onProveedorChange(): void {
-    // Filtra los productos según el proveedor seleccionado
+  onProveedorChange(): void { // cambiar este nombre al castellano
+    // Filtra los productos según el proveedor seleccionado y que no estén eliminados
     if (this.proveedorSeleccionado !== -1) {
       this.productosFiltrados = this.productos.filter((producto) => {
         const proveedorId = producto.proveedor.id_proveedor;
         const proveedorSeleccionadoId = this.proveedorSeleccionado;
-        return proveedorId == proveedorSeleccionadoId;
+        return proveedorId == proveedorSeleccionadoId && !producto.eliminado;
       });
     } else {
-      // Si no se ha seleccionado un proveedor, muestra todos los productos
-      this.productosFiltrados = this.productos;
+      // Si no se ha seleccionado un proveedor, muestra todos los productos no eliminados
+      this.productosFiltrados = this.productos.filter((producto) => !producto.eliminado);
     }
+  
   }
   actualizarPrecio(): void {
     if (this.productoSeleccionado) {
@@ -88,27 +89,35 @@ export class OrdenesComponent implements OnInit {
   }
   agregarProducto(): void {
     if (this.productoAgregar && this.productoAgregar.productos) {
-      this.productosPreOrden.push(this.productoAgregar);
+      // Verificar si ya existe un producto con el mismo id
+      const productoExistente = this.productosPreOrden.find(
+        (producto) => producto.productos.id_producto === this.productoAgregar.productos.id_producto
+      );
+  
+      if (productoExistente) {
+        // Si ya existe, actualiza la cantidad
+        productoExistente.cantidad += this.productoAgregar.cantidad;
+      } else {
+        // Si no existe, agrega el nuevo producto
+        this.productosPreOrden.push(this.productoAgregar);
+      }
   
       // Limpiar cantidad y producto seleccionado
       this.productoAgregar = {
         productos: undefined,
         cantidad: undefined
       };
-  
+      this.productoSeleccionado = undefined;
     }
   }
-
   obtenerNombreProducto(idProducto: number): string {
     const producto = this.productos.find((p) => p.id_producto === idProducto);
     return producto ? producto.nombre : 'Producto no encontrado';
   }
-  
   obtenerPrecioTotal(idProducto: number, cantidad: number): number {
     const producto = this.productos.find((p) => p.id_producto === idProducto);
     return producto ? producto.precio * cantidad : 0;
   }
-  
   calcularTotal(): number {
     return this.productosPreOrden.reduce((total, producto) => {
       return total + producto.productos.precio * producto.cantidad;
@@ -116,8 +125,10 @@ export class OrdenesComponent implements OnInit {
   }
   borrarProductos(): void {
     this.productosPreOrden = [];
+    this.nuevaOrden.descripcion = ''; 
+    this.nuevaOrden.fechaEntrega = '';
+
   }
-  //---------------------------------------------------------------------------------------//
   crearPreorden() {
     // Mapear las preórdenes y guardarlas
     const llamadasGuardarPreOrden = this.productosPreOrden.map(preOrden => {
@@ -141,8 +152,15 @@ export class OrdenesComponent implements OnInit {
       this.ordenesService.guardarOrden(this.nuevaOrden).subscribe(() => {
         // Limpiar productosPreOrden después de guardar la orden
         this.borrarProductos();
-        console.log('Orden guardada correctamente con preórdenes asociadas.');
+        this.router.navigate(['/ordenCompra/lista']);
       });
     });
   }
+  actualizarMinFechaEntrega(): void {
+    // Calcular la fecha mínima permitida (dos días posteriores a la fecha actual)
+    const today = new Date();
+    today.setDate(today.getDate() + 2);
+    this.minFechaEntrega = today.toISOString().split('T')[0];
+  }
+
 }

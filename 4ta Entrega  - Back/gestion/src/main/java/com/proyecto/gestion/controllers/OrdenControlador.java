@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.proyecto.gestion.entities.Orden;
+import com.proyecto.gestion.entities.Proveedor;
 import com.proyecto.gestion.services.OrdenServicio;
 
 @RestController
@@ -57,5 +59,13 @@ public class OrdenControlador {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+    
+    // ELIMINADO LOGICO DE UNA ORDEN
+ 	@PatchMapping("/{id}")
+ 	public ResponseEntity<Orden> cambiarEstadoCancelado(@PathVariable Integer id) {
+ 		Orden ordenActualizar = ordenServicio.cambiarEstadoCancelado(id);
+ 		return ResponseEntity.ok(ordenActualizar);
+ 		
+ 	}
 
 }

@@ -1,7 +1,9 @@
 package com.proyecto.gestion.services;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -75,6 +77,21 @@ public class OrdenServicio {
 
         // Persiste la orden en la base de datos
         return ordenRepositorio.save(orden);
+    }
+    
+    // BORRADO LOGICO DE UN PROVEEDOR
+    public Orden cambiarEstadoCancelado(Integer idOrden) {
+        Optional<Orden> respuesta = ordenRepositorio.findById(idOrden);
+        
+        if (respuesta.isPresent()) {
+            Orden orden = respuesta.get();
+            orden.setCancelada(true);
+            orden.setReg_modificado(new Date());
+            return ordenRepositorio.save(orden);
+        } else {
+            throw new NoSuchElementException("Orden no encontrado con ID: " + idOrden);
+        }
+    
     }
     
 }

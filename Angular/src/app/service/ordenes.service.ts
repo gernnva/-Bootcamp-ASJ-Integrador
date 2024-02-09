@@ -31,6 +31,11 @@ export class OrdenesService {
       return this.http.get<any[]>(this.apiUrlOrden)
     }
 
+    /** SETEAR ELIMINADO */
+    public SetearEliminado(id: number): Observable<any> {
+    return this.http.patch(`${this.apiUrlOrden}/${id}`, null);
+  }
+
 
 
 
