@@ -30,21 +30,21 @@ export class InicioComponent implements OnInit{
     this.proveedoresServicio.obtenerProveedores().subscribe((data) => {
       // Filtra los proveedores que no están eliminados
       this.proveedoresCantidad = data.length;
-      console.log(this.proveedoresCantidad)
+
     });
   }
 
   obtenerProductos(): void {
     this.productosService.obtenerProductos().subscribe((data) => {
       this.productosCantidad = data.length;
-      console.log(this.productosCantidad)
+
     })
   }
 
   obtenerOrdenes(): void {
     this.ordenesService.obtenerOrdenes().subscribe((data) => {
       this.ordenesCantidad = data.length;
-      console.log(this.ordenesCantidad)
+
     })
   }
 
