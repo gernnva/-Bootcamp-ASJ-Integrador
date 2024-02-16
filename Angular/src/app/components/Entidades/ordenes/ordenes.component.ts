@@ -35,7 +35,7 @@ export class OrdenesComponent implements OnInit {
 
   productoAgregar: any = {
     productos: undefined,
-    cantidad: 1 
+    cantidad: undefined,
   }
 
   constructor(
@@ -49,6 +49,7 @@ export class OrdenesComponent implements OnInit {
     this.obtenerProveedores();
     this.obtenerProductos();
     this.actualizarMinFechaEntrega();
+    this.productoAgregar.cantidad = 1
   }
 
   obtenerProveedores(): void {
@@ -64,7 +65,7 @@ export class OrdenesComponent implements OnInit {
     })
   }
 
-  onProveedorChange(): void { // cambiar este nombre al castellano
+  onProveedorChange(): void { 
     // Filtra los productos según el proveedor seleccionado y que no estén eliminados
     if (this.proveedorSeleccionado !== -1) {
       this.productosFiltrados = this.productos.filter((producto) => {
@@ -105,7 +106,7 @@ export class OrdenesComponent implements OnInit {
       // Limpiar cantidad y producto seleccionado
       this.productoAgregar = {
         productos: undefined,
-        cantidad: undefined
+        cantidad: 1
       };
       this.productoSeleccionado = undefined;
     }

@@ -154,6 +154,7 @@ export class ProveedoresAgregarComponent {
             this.router.navigate(['/proveedores']);
           });
       } else {
+        this.nuevoProveedor.logo = 'https://static.vecteezy.com/system/resources/previews/004/141/669/non_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg'
         this.servicioProveedor.guardarProveedor(this.nuevoProveedor)
           .subscribe(dato => {
             this.router.navigate(['/proveedores']);
@@ -186,7 +187,9 @@ export class ProveedoresAgregarComponent {
   private verificarExistenciaProveedorLocal(): boolean {
     // Verificar si ya existe un proveedor con el mismo codProveedor en la lista local
     return this.todosLosProveedores.some(
-      (proveedor) => proveedor.codProveedor === this.nuevoProveedor.codProveedor
+      
+      (proveedor) => 
+      proveedor.codProveedor == this.nuevoProveedor.codProveedor && proveedor.id_proveedor != this.idProveedor
     );
   }
 
@@ -203,6 +206,12 @@ export class ProveedoresAgregarComponent {
     }
   }
 
+  onKeyPressNumerico(event: any) {
+    // Verificar si la tecla presionada es un número
+    if (event.which < 48 || event.which > 57) {
+      event.preventDefault();
+    }
+  }
   
 
 

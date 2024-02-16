@@ -15,6 +15,8 @@ export class ProveedoresComponent {
   buscarCodigo = '';
   proveedorElegido: any;
  // proveedor: any;
+  hayProveedoresNoEliminados: boolean | null = true;
+  hayProveedoresEliminados: boolean | null = true;
 
   mostrarEliminados: boolean = false; // 
 
@@ -22,6 +24,7 @@ export class ProveedoresComponent {
 
   ngOnInit(): void {
     this.mostrarProveedores()
+    
   }
   
   toggleMostrarEliminados() {
@@ -31,6 +34,8 @@ export class ProveedoresComponent {
   mostrarProveedores(){
     this.servicioProveedor.obtenerProveedores().subscribe((data) => {
       this.proveedores = data;
+      this.hayProveedoresNoEliminados = this.proveedores.some(proveedor => !proveedor.eliminado);
+      this.hayProveedoresEliminados = this.proveedores.some(proveedor => proveedor.eliminado);
     });
   }
 
@@ -50,4 +55,6 @@ export class ProveedoresComponent {
     this.proveedorElegido = proveedor;
   }
 
+
+  
 }

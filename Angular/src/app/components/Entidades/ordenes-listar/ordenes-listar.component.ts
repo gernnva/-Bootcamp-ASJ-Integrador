@@ -28,7 +28,7 @@ export class OrdenesListarComponent implements OnInit {
 
   mostrarOrdenes() {
     this.ordenesService.obtenerOrdenes().subscribe((data) => {
-      this.ordenesGuardadas = data;
+      this.ordenesGuardadas = data.reverse();
     })
     
   }

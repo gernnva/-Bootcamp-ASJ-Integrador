@@ -68,14 +68,14 @@
 
         <div class="d-flex justify-content-between mt-3">
           <button type="button" class="btn btn-primary" (click)="verRegistrosAnteriores()"
-            [disabled]="!showPreviousButton">Ver Anteriores 5 Registros</button>
+            [disabled]="!showPreviousButton">Ver Anteriores Registros</button>
           <button type="button" class="btn btn-primary" (click)="verSiguientesRegistros()"
-            [disabled]="!showNextButton">Ver Siguientes 5 Registros</button>
+            [disabled]="!showNextButton">Ver Siguientes Registros</button>
         </div>
 
 
 
-        <div *ngIf="ordenesGuardadas.length === 0" class="alert alert-warning mx-2" role="alert">
+        <div *ngIf="ordenesGuardadas.length === 0" class="alert alert-warning m-2" role="alert">
           <h4 class="alert-heading">¡Tabla Vacía!</h4>
           <p>No hay órdenes de compra guardadas.</p>
         </div>
@@ -96,7 +96,7 @@
             <li *ngFor="let producto of ordenSeleccionada.preordenes">
 
               {{ producto.productos.nombre}} - Cantidad: {{ producto.cantidad }} - Precio Unitario: {{
-              producto.productos.precio | currency: 'ARS ' }}
+              producto.subtotal / producto.cantidad | currency: 'ARS ' }}
             </li>
           </ul>
 

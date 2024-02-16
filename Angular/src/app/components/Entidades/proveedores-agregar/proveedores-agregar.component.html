@@ -31,7 +31,8 @@
             <div class="d-flex">
               <div class="form-group col-2 pe-2">
                 <label for="codigo">Código:</label>
-                <input type="text" class="form-control" id="codigo" name="codigo" [(ngModel)]="nuevoProveedor.codProveedor" required />
+                <input type="text" class="form-control" id="codigo" name="codigo" [(ngModel)]="nuevoProveedor.codProveedor" required 
+                maxlength="7" style="text-transform: uppercase;"/>
               </div>
   
               <div class="form-group col-6 pe-2">
@@ -54,16 +55,16 @@
             <div class="d-flex">
               <div class="col-4 pe-2">
                 <label for="web">Web</label>
-                <input type="text" class="form-control" id="web" name="web" [(ngModel)]="nuevoProveedor.paginaWeb" />
+                <input type="text" class="form-control" id="web" name="web" [(ngModel)]="nuevoProveedor.paginaWeb" required />
               </div>
               <div class="col-4 pe-2">
                 <label for="emailEmpresa">Email empresa</label>
-                <input type="text" class="form-control" id="emailEmpresa" name="emailEmpresa"
+                <input type="text" class="form-control" id="emailEmpresa" name="emailEmpresa" required
                   [(ngModel)]="nuevoProveedor.email" />
               </div>
               <div class="col-4">
                 <label for="logo">Logo</label>
-                <input type="text" class="form-control" id="logo" name="logo" [(ngModel)]="nuevoProveedor.logo" />
+                <input type="text" class="form-control" id="logo" name="logo" [(ngModel)]="nuevoProveedor.logo" placeholder="Campo NO obligatorio"/>
               </div>
             </div>
           </div>
@@ -75,13 +76,13 @@
               <div class="border p-2 me-2">
                 <div class="form-group d-flex">
                   <div class="col-8 me-2">
-                    <label for="calle">Calle</label>
-                    <input type="text" class="form-control" id="calle" name="calle"
+                    <label for="calle">Calle</label> 
+                    <input type="text" class="form-control" id="calle" name="calle" required
                       [(ngModel)]="nuevoProveedor.direccion.calle" />
                   </div>
                   <div class="">
                     <label for="calle">Nro</label>
-                    <input type="text" class="form-control" id="nro" name="nro"
+                    <input type="text" class="form-control" id="nro" name="nro" required
                       [(ngModel)]="nuevoProveedor.direccion.numCalle" />
                   </div>
                 </div>
@@ -110,13 +111,13 @@
   
                 <div class="form-group">
                   <label for="localidad">Ciudad:</label>
-                  <input type="text" class="form-control" id="localidad" name="localidad"
+                  <input type="text" class="form-control" id="localidad" name="localidad" required
                     [(ngModel)]="nuevoProveedor.direccion.ciudad" />
                 </div>
   
                 <div class="form-group">
                   <label for="cp">Código Postal:</label>
-                  <input type="text" class="form-control" id="cp" name="cp" [(ngModel)]="nuevoProveedor.direccion.codPostal" />
+                  <input type="text" class="form-control" id="cp" name="cp" [(ngModel)]="nuevoProveedor.direccion.codPostal" pattern="[0-9]*" maxlength="4" (keypress)="onKeyPressNumerico($event)" required/>
                 </div>
               </div>
             </div>
@@ -139,13 +140,13 @@
                   <div class="form-group col-6 pe-2">
                     <label for="telFijo">Teléfono:</label>
                     <input type="tel" class="form-control" id="telFijo" name="telFijo"
-                      [(ngModel)]="nuevoProveedor.contactoInfo.telFijo" />
+                      [(ngModel)]="nuevoProveedor.contactoInfo.telFijo" pattern="[0-9]*" maxlength="10" (keypress)="onKeyPressNumerico($event)" required/>
                   </div>
   
                   <div class="form-group col-6">
                     <label for="celular">Celular:</label>
                     <input type="tel" class="form-control" id="celular" name="celular"
-                      [(ngModel)]="nuevoProveedor.contactoInfo.telCelular" />
+                      [(ngModel)]="nuevoProveedor.contactoInfo.telCelular" pattern="[0-9]*" maxlength="10" (keypress)="onKeyPressNumerico($event)" required/>
                   </div>
                 </div>
   
@@ -157,7 +158,7 @@
   
                 <div class="form-group">
                   <label for="rolContacto">Rol:</label>
-                  <input type="text" class="form-control" id="rolContacto" name="rolContacto"
+                  <input type="text" class="form-control" id="rolContacto" name="rolContacto" required
                     [(ngModel)]="nuevoProveedor.contactoInfo.rol" />
                 </div>
               </div>
@@ -168,20 +169,22 @@
           <div class="mb-3">
             <h3 class="mt-4">Datos Fiscales</h3>
             <div class="border p-2 me-2 d-flex">
-              <div class="form-group me-2 flex-fill">
-                <label for="cuit">CUIT:</label>
-                <input type="text" class="form-control" id="cuit" name="cuit" [(ngModel)]="nuevoProveedor.cuit" required />
-              </div>
+              
   
-              <div class="form-group flex-fill">
+              <div class="form-group flex-fill me-2">
                 <label for="condicionIva">Condición IVA:</label>
                 <select class="form-select" id="condicionIva" name="condicionIva"
                   [(ngModel)]="nuevoProveedor.condIva.id_condicionIva" required>
-                  <option value="">Selecciona una categoría</option>
-                  <option *ngFor="let condicion of condicionesIva" [value]="condicion.id_condicionIva">
+                  <option value="" disabled [selected]="!nuevoProveedor.condIva.id_condicionIva">Selecciona una condicion</option>
+                  <option *ngFor="let condicion of condicionesIva" [ngValue]="condicion.id_condicionIva">
                     {{ condicion.condicion }}
                   </option>
                 </select>
+              </div>
+
+              <div class="form-group  flex-fill">
+                <label for="cuit">CUIT:</label>
+                <input type="text" class="form-control" id="cuit" name="cuit" [(ngModel)]="nuevoProveedor.cuit" required />
               </div>
             </div>
           </div>

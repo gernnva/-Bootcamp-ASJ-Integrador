@@ -57,7 +57,7 @@ export class CategoriasAgregarComponent implements OnInit {
       } else {
         // Ya existe una categoría con el mismo nombre, manejar la lógica correspondiente
         this.mostrarAlert();
-        // Puedes mostrar un mensaje al usuario o tomar la acción que consideres apropiada
+        // Puedes mostrar un mensaje al usuario o tomar la accion que consideres apropiada
       }
     });
     

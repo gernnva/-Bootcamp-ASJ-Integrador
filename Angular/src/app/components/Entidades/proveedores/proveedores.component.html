@@ -105,6 +105,28 @@
           <p class="mb-0">Agrega nuevos Proveedores utilizando el botón "Agregar Nuevo Proveedor" que esta arriba a la
             derecha.</p>
         </div>
+
+      
+      <ng-container *ngIf="!mostrarEliminados && !hayProveedoresNoEliminados">
+        <!-- Muestra si no hay proveedores con eliminado == false -->
+        <div class="alert alert-warning mx-2" role="alert">
+          <h4 class="alert-heading">No hay proveedores activos en esta tabla</h4>
+          <p>Si necesitas ACTIVAR, vuelve a PROVEEDORES INACTIVOS y presiona sobre el icono VERDE con este dibujo: <i class="bi bi-arrow-up-right-square"></i>.</p>
+
+        </div>
+      </ng-container>
+      <ng-container *ngIf="mostrarEliminados && !hayProveedoresEliminados">
+        <!-- Muestra si no hay proveedores con eliminado == true -->
+        <div class="alert alert-warning mx-2" role="alert">
+          <h4 class="alert-heading">No hay proveedores eliminados en esta tabla</h4>
+          <p>Si necesitas DESACTIVAR, velve a PROVEEDORES ACTIVOS y presiona sobre el icono ROJO con este dibujo: <i class="bi bi-trash-fill"></i></p>
+        </div>
+      </ng-container>
+    
+
+        
+
+        
       </div>
       <!-- Modal -->
       <div class="modal fade" id="proveedorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
